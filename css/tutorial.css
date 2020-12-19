@@ -1,0 +1,29 @@
+.codeinput{
+    color: rgb(40, 1570, 149); 
+    background-color: rgb(64, 64, 64); 
+    width: 80% !important; 
+    font-family: monospace,sans-serif; 
+    resize: none;
+    border: none !important;
+}
+.textinput{
+    color: rgb(64, 64, 64); 
+    background-color: rgb(226, 226, 226); 
+    width: 80% !important; 
+    resize: none;
+    border: none !important;
+}
+.label{
+    margin-left: 8px !important;
+    margin-bottom: 0px !important;
+    font-size: small;
+    
+}
+.urlinput{
+    color: rgb(255, 255, 255); 
+    background-color: rgb(0, 162, 196); 
+    width: 40% !important; 
+    height: 30px;
+    resize: none;
+    border: none !important;
+}

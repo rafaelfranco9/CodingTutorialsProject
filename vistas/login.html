@@ -1,0 +1,26 @@
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card" style="width: 30rem;">
+        <div class="card-header text-center">
+            <h2>Login</h2>
+        </div>
+        <div class="card-body">
+            <form name="formLogin" class="form">
+                <label for="email" class="form-label">email:</label>
+                <input ng-model="$ctrl.email" type="email" class="form-control" name="email" id="email" placeholder="Correo electronico" required>
+                <br>
+                <label for="password" class="form-label">password:</label>
+                <input ng-model="$ctrl.password" type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required>
+                <code ng-show="$ctrl.usuarioIncorrecto" class="font-weight-light m-0">Error entrando al sistema</code>
+            </form>
+            <br><br>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <button ng-click="$ctrl.login()" ng-disabled="formLogin.$invalid" class="btn rounded" style="background-color: rgb(62, 183, 90); width: 10rem;" type="submit">Entrar</button>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center mt-2">
+                    <button ng-click="$ctrl.irSignUp()" class="btn rounded" style="background-color: rgb(35, 98, 193); width: 10rem;" type="submit">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

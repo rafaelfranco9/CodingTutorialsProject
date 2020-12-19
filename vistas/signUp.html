@@ -1,0 +1,41 @@
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card" style="width: 30rem;">
+        <div class="card-header text-center">
+            <h2>Sign Up</h2>
+        </div>
+        <div class="card-body">
+            <form name="formSignUp" class="form">
+                <label for="inputNombre" class="form-label" >name:</label>
+                <input ng-model="$ctrl.nuevoUsuario.nombre" style="text-transform: capitalize;"  type="text" id="inputNombre" class="form-control" placeholder="Nombre" required>
+                <br>
+                <label for="inputApellido" class="form-label">lastname:</label>
+                <input ng-model="$ctrl.nuevoUsuario.apellido" style="text-transform: capitalize;"  type="text" name="inputApellido" id="inputApellido" class="form-control" placeholder="Apellido" required>
+                <br>
+                <label for="email" class="form-label">email:</label>
+                <input ng-model="$ctrl.nuevoUsuario.email" type="email" class="form-control" name="email" id="email" placeholder="Correo electronico" required>
+                <br>
+                <label for="inputpassword" class="form-label">password:</label>
+                <input ng-model="$ctrl.nuevoUsuario.password" type="password" class="form-control" name="inputpassword" id="inputpassword" placeholder="Contraseña (minimo 8 caracteres al menos 1 numero)" ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/" required>
+                <br>
+                <label for="inputPassword2" class="form-label">repeat password:</label>
+                <input type="password" ng-model="$ctrl.password2" name="inputPassword2"  id="inputPassword2" class="form-control" placeholder="Contraseña (minimo 8 caracteres al menos 1 numero)" ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/" required>
+                
+                <code ng-class="{'cumpleRequisitos': formSignUp.inputpassword.$valid == true,'noCumpleRequisitos': formSignUp.inputpassword.$valid == false }">la contraseña {{formSignUp.inputpassword.$valid == true? '':'NO '}}cumple con los requisitos</code>
+                <br>
+                <code ng-class="{'cumpleRequisitos': $ctrl.nuevoUsuario.password == $ctrl.password2 && $ctrl.nuevoUsuario.password!=null,'noCumpleRequisitos': $ctrl.nuevoUsuario.password != $ctrl.password2 }">las contraseñas {{$ctrl.nuevoUsuario.password == $ctrl.password2 && $ctrl.nuevoUsuario.password!=null? '':'NO '}}coinciden</code>
+                <br>
+                <code ng-show="$ctrl.errorNuevoUsuario" class="font-weight-light m-0">Error el usuario ya existe</code>
+            </form>
+            <br><br>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <button ng-click="$ctrl.signUp()" ng-disabled="formSignUp.$invalid" class="btn rounded" style="background-color: rgb(62, 183, 90); width: 10rem;" type="submit">Registrarse</button>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center mt-2">
+                    <button ng-click="$ctrl.irLogin()" class="btn rounded" style="background-color: rgb(35, 98, 193); width: 10rem;" type="submit">Iniciar Sesion</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

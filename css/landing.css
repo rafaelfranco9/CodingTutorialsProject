@@ -1,0 +1,6 @@
+body{
+    background-color: rgb(13, 31, 45);
+}
+.btn:hover{
+    background-color: turquoise !important;
+}

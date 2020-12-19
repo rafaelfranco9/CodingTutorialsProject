@@ -1,0 +1,33 @@
+.bg{
+      /* The image used */
+  background-image: url("../Imagenes/loginBackground.jpg");
+
+  /* Full height */
+  height: 100vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.btn-activo{
+    background-color: rgb(5, 175, 22);
+    color: white;
+}
+.btn-noActivo{
+    background-color: rgb(111, 111, 111);
+    color: white;
+}
+.card-usuario{
+    width: 40rem;
+}
+.card-nuevo-usuario{
+    width: 50rem;
+}
+.cumpleRequisitos{
+    color: green ;
+}
+.noCumpleRequisitos{
+    color: #e83e8c ;
+}

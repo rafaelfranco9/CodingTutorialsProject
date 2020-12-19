@@ -1,0 +1,135 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand">Coding Tutorials</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tutoriales</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Mi Perfil</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row m-3">
+        <div class="col-md-12 d-flex justify-content-end">
+            <button ng-disabled="$ctrl.titulo == null || $ctrl.titulo == ''" class="btn bg-white" type="submit" ng-click="$ctrl.guardar(1)">Guardar</button>
+            <button ng-disabled="$ctrl.titulo == null || $ctrl.titulo == ''" class="btn bg-white" style="margin-left: 1rem !important;" type="submit" ng-click="$ctrl.guardar(2)">Guardar y Publicar</button>
+            <button class="btn bg-white" style="margin-left: 1rem !important;" type="submit">Descartar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3 row">
+                <label for="titulo" class="col-sm-2 col-form-label" style="color: white;">Titulo</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="titulo" name="titulo" ng-model="$ctrl.titulo" >
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="descripcion" class="col-sm-2 col-form-label" style="color: white;">Descripcion</label>
+                <div class="col-sm-10">
+                    <textarea name="descripcion" id="descripcion" cols="30" style="resize: none;" rows="5" class="form-control rounded" ng-model="$ctrl.descripcion"></textarea>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="Imagen" class="col-sm-2 col-form-label" style="color: white;">Imagen</label>
+                <div class="col-sm-10">
+                    <input class="form-control"  type="file" accept="image/*" id="imageFileTutorial" >
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="etiquetas" class="col-sm-2 col-form-label" style="color: white;">Etiquetas</label>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col">                        
+                            <input type="text" maxlength="20" class="form-control" id="etiqueta1" ng-model="$ctrl.etiquetas[0]">
+                        </div>
+                        <div class="col">                        
+                            <input type="text" maxlength="20" class="form-control" id="etiqueta2" ng-model="$ctrl.etiquetas[1]">
+                        </div>
+                        <div class="col">                        
+                            <input type="text" maxlength="20" class="form-control" id="etiqueta3" ng-model="$ctrl.etiquetas[2]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Aqui comienza la parte de edicion-->
+    <div class="row mt-3">
+        <div class="col-md-2">
+            <p class="text-white font-weight-light text-center mb-1">Herramientas</p>
+            <ul class="list-group">
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('codigo')" class="btn">Code</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('texto')" class="btn">Text</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('url')" class="btn">Url</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('image')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn">Image</button></li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <p class="text-white font-weight-light text-center mb-1 d-flex justify-content-start">Hoja de tutorial</p>
+            <div class="rounded bg-white p-4" style="width: 85%; min-height: 500px;">
+                
+                <div class="row">
+                    <div class="col-md-12"  ng-repeat="herramienta in $ctrl.herramientas track by $index">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="label">{{herramienta.label}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div compile ng-bind-html="$ctrl.getString(herramienta)"></div>
+                            </div>
+                        </div>
+                           
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="height: 80px;"></div>
+    </footer>
+
+    <!--Modal for image-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Subir imagen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <input class="form-control" id="imgToLoad" type="file" accept="image/*" id="imageFile">
+                    <br>
+                    <h3 class="text-center">Tamaño</h3>
+                    <p class="text-center">max 500x500</p>
+                    <label class="form-label" for="ancho">Ancho(px)</label>
+                    <input type="number" max="500" class="form-control" id="ancho" ng-model="$ctrl.ancho">
+                    <br>
+                    <label class="form-label" for="alto">Alto(px)</label>
+                    <input type="number" max="500" class="form-control" id="alto" ng-model="$ctrl.alto">
+                </form>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.cargarFoto()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+
