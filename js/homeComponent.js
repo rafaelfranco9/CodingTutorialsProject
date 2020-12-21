@@ -11,7 +11,7 @@ angular.module('myApp')
 			if(confirm("Desea salir del sistema?")){
 				$auth.logout();
 				$auth.removeToken();
-				$location.url('/login');
+				$location.url('/landing');
 			}
 		}
 

@@ -177,7 +177,13 @@ app.component("tutorial",{
            
         }
 
-        
+        ctrl.logout = function () {
+			if(confirm("Desea salir del sistema?")){
+				$auth.logout();
+				$auth.removeToken();
+				$location.url('/landing');
+			}
+		}
 
 
 
