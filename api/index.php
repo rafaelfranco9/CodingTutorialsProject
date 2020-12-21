@@ -102,14 +102,21 @@ function postloadTutorial(){
 	if(isset($tutorialData['id_tutorial'])){
 		$id = $tutorialData['id_tutorial'];
 		$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen='$imagen',etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
+		$accion = "UPDATE";
 	}else{
 		$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,'$imagen',$etiquetas,$herramientas,'$estado')";
+		$accion = "INSERT";
 	}
 
 	$result = mysqli_query($db,$sql);
 
 	if(mysqli_affected_rows($db) > 0){
 		$lastId = mysqli_insert_id($db);
+		if($accion == "INSERT"){
+			$id_usuario = $data['id'];
+			$sql = "INSERT INTO tutorial_usuario VALUES(DEFAULT,$id_usuario,$lastId)";
+			$result = mysqli_query($db,$sql);
+		}
 		mysqli_close($db);
 		output($lastId);
 	}else{
