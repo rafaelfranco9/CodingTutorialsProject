@@ -126,6 +126,27 @@ function postloadTutorial(){
 
 }
 
+function deleteTutorial($id){
+
+
+	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
+	$db = databaseConection();
+	$id = $id+0;
+	$result = mysqli_query($db,"DELETE FROM tutorial_usuario WHERE id_tutorial = $id");
+	if($result === false){
+		outputError(401);
+	}
+	
+	$result = mysqli_query($db,"DELETE FROM tutorial WHERE id = $id");
+	if($result === false){
+		outputError(401);
+	}
+
+	header(' ', true, 200);
+
+}
+
 function postloadImages(){
 
 	$authHeader = getallheaders();

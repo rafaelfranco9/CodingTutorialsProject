@@ -1,13 +1,14 @@
 angular.module("myApp")
 .component("profile",{
     templateUrl:'vistas/profile.html',
-    controller: function($http,$location){
+    controller: function($http,$location,$rootScope){
         ctrl = this;
 
         ctrl.$onInit = function(){
             ctrl.tutoriales = [];
             ctrl.buscarInfoUsuario();
             ctrl.buscarTutoriales();
+            $rootScope.info = {"editando": false, "id_tutorial": 0};
         }
 
 
@@ -35,6 +36,24 @@ angular.module("myApp")
                 alert('no funciona');
             });
 
+        }
+
+        ctrl.editarTutorial = function(id){
+            $rootScope.info = {"editando": true, "id_tutorial": id};
+            ctrl.irUrl('tutorial');
+        }
+        ctrl.borrarTutorial = function(id){
+            if(confirm("Esta seguro que quiere borrar el tutorial?")){
+                $http.delete('api/Tutorial/' + id)
+                .then(function(response){
+                    alert('Se borro satisfactoriamente!');
+                    location.reload();
+                })
+                .catch(function(response){
+                    alert('NO se borro satisfactoriamente!');
+                });
+
+            }
         }
 
         ctrl.logout = function () {

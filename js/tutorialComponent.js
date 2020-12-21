@@ -1,11 +1,12 @@
 app = angular.module("myApp");
 app.component("tutorial",{
     templateUrl: 'vistas/tutorial.html',
-    controller: function($sce,$window,$http,$location){
+    controller: function($sce,$window,$http,$location,$rootScope){
         ctrl = this;
 
         ctrl.$onInit = function(){
             
+            console.log($rootScope.info);
             ctrl.id_tutorial = undefined;
             ctrl.titulo = '';
             ctrl.descripcion = '';
@@ -122,6 +123,7 @@ app.component("tutorial",{
                     ctrl.id_tutorial = response.data;
                     console.log('el id del tutorial es ' + ctrl.id_tutorial);
                 }
+                ctrl.irUrl('profile');
             })
             .catch(function(response){
                 alert('no se guardo el tutorial con exito');

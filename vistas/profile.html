@@ -65,8 +65,8 @@
                             <p class="m-0">Comentarios: 100</p>
                         </div>
                         <div class="col-md-3 d-flex justify-content-between align-self-end mb-1">
-                            <a href="" class="text-decoration-none">Editar</a>
-                            <a href="" class="text-decoration-none">Eliminar</a>
+                            <a href="" ng-click="$ctrl.editarTutorial(tutorial.id)" class="text-decoration-none">Editar</a>
+                            <a href="" ng-click="$ctrl.borrarTutorial(tutorial.id)" class="text-decoration-none">Eliminar</a>
                         </div>
                     </div>
                 </div>
@@ -93,13 +93,13 @@
                     <input class="form-control" id="imgToLoad" type="file" name="fotoPerfil"  accept="image/*" id="imageFile">
                     <br>
                     <label class="form-label" for="Nombre">Nombre</label>
-                    <input type="text" class="form-control" style="width:50%">
+                    <input type="text" class="form-control"  ng-model="$ctrl.dataUsuario.nombre" style="width:50%"> <!--ver si combiene poner una copia de los datos-->
                     <br>
                     <label class="form-label" for="Nombre">Apellido</label>
-                    <input type="text" class="form-control" style="width:50%">
+                    <input type="text" class="form-control" ng-model="$ctrl.dataUsuario.apellido" style="width:50%">
                     <br>
                     <label class="form-label" for="Nombre">Descripcion</label>
-                    <input type="text" class="form-control" maxlength="100">
+                    <input type="text" class="form-control" ng-model="$ctrl.dataUsuario.descripcion" max="100">
                 </form>
 
             </div>
