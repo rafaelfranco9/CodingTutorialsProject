@@ -13,7 +13,7 @@ $funcionNombre = $metodo.ucfirst($comandos[0]);
 if(function_exists($funcionNombre))
 	call_user_func_array ($funcionNombre, array_slice($comandos, 1) );
 else
-	header(' ', true, 400);
+	outputError(401);
 
 
 
@@ -42,13 +42,10 @@ function postLogin(){
 					);
 					
 		$arregloToken = ['token' => $jwt];
-		
-		header(' ', true, 200);
-		header('Content-type: application/json');
-		echo json_encode($arregloToken);
+		output($arregloToken);
 
 	} else {
-		header(' ', true, 401);
+		outputError(401);
 	}
 }
 
@@ -81,13 +78,16 @@ function postSignUp(){
 			header(' ', true, 200);
 		}
 	}else{
-		header(' ', true, 401);
+		outputError(401);
 	}
 
 }
 
 
 function postloadTutorial(){
+
+	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
 
 	$tutorialData = json_decode(file_get_contents("php://input"), true);
 	$titulo = $tutorialData['titulo'];
@@ -109,51 +109,32 @@ function postloadTutorial(){
 	$result = mysqli_query($db,$sql);
 
 	if(mysqli_affected_rows($db) > 0){
-		header(' ', true, 200);
-		header('Content-type: application/json');
-		echo mysqli_insert_id($db);
-
+		$lastId = mysqli_insert_id($db);
+		mysqli_close($db);
+		output($lastId);
 	}else{
-		header(' ', true, 401);
+		mysqli_close($db);
+		outputError(401);
 	}
 
-	mysqli_close($db);
 }
 
 function postloadImages(){
 
 	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
+	$user = 'USER_'.$data['id'];
+	$count = count($_FILES['file']['name']);
 
-    if (isset($authHeader['Authorization'])) {
+	for($i=0;$i<$count;$i++){
+		$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/".$user."/imagenes/".$_FILES['file']['name'][$i];
 
-		list($jwt) = sscanf( $authHeader['Authorization'], 'Bearer %s');
-		try
-		{
-			$token = JWT::decode($jwt, SECRET_KEY, ALGORITMO);
-			$data = json_decode(json_encode($token), true);
-
-			$user = 'USER_'.$data['id'];
-			$count = count($_FILES['file']['name']);
-
-			for($i=0;$i<$count;$i++){
-				$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/".$user."/imagenes/".$_FILES['file']['name'][$i];
-	
-				if(move_uploaded_file($_FILES['file']['tmp_name'][$i],$path)){
-					echo 'se movio satisfactoriamente';
-				}
-			}
-
-			header(' ', true, 200);
-			header('Content-type: application/json');
+		if(move_uploaded_file($_FILES['file']['tmp_name'][$i],$path)){
+			echo 'se movio satisfactoriamente';
 		}
-		catch(Exception $e) 
-		{
-			header(' ', true, 401);
-		}
-	
-	} else {
-		header(' ', true, 401);
 	}
+
+	header(' ', true, 200);
 
 }
 
@@ -184,6 +165,67 @@ function getTexto() {
 	} else {
 		header(' ', true, 401);
 	}
+}
+
+function getProfileTutorials(){
+
+	$authHeader = getallheaders();
+	$userdata = validateUser($authHeader);
+	$db = databaseConection();
+	$tutoriales = [];
+
+	$userId = $userdata['id'];
+	$result = mysqli_query($db,"SELECT t.id,t.titulo,t.descripcion,t.imagen,t.estado from tutorial_usuario AS tu
+								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
+								WHERE tu.id_usuario = $userId");
+	if($result === false){
+		outputError(500);
+	}
+
+	while($fila = mysqli_fetch_assoc($result)){
+		$tutoriales [] = ["id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"]];
+	}
+
+	output($tutoriales);
+}
+
+function getProfileInfo(){
+
+	$authHeader = getallheaders();
+	$userdata = validateUser($authHeader);
+	output($userdata);
+
+}
+
+
+function validateUser($authHeader){
+
+	if (isset($authHeader['Authorization'])) {
+
+		list($jwt) = sscanf( $authHeader['Authorization'], 'Bearer %s');
+		try
+		{
+			$token = JWT::decode($jwt, SECRET_KEY, ALGORITMO);
+			$data = json_decode(json_encode($token), true);
+			return $data;
+		}
+		catch(Exception $e) 
+		{
+			outputError(401);
+		}
+	
+	} else {
+		outputError(401);
+	}
+
+}
+
+
+function output($val, $headerStatus = 200){
+	header(' ', true, $headerStatus);
+	header('Content-Type: application/json');
+	print json_encode($val);
+	die;
 }
 
 ?>
