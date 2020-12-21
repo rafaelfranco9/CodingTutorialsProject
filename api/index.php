@@ -64,7 +64,7 @@ function postSignUp(){
 
 	if(mysqli_affected_rows($db) == 0){
 
-		$result = mysqli_query($db,"INSERT INTO usuario VALUES(DEFAULT,'$nombre','$apellido','$email','$password')");
+		$result = mysqli_query($db,"INSERT INTO usuario VALUES(DEFAULT,'$nombre','$apellido','$email','$password',DEFAULT,NULL)");
 		$userId = mysqli_insert_id($db);
 		
 		try{
@@ -138,34 +138,7 @@ function postloadImages(){
 
 }
 
-function getTexto() {
-	
-	$authHeader = getallheaders();
 
-    if (isset($authHeader['Authorization'])) {
-
-		list($jwt) = sscanf( $authHeader['Authorization'], 'Bearer %s');
-		try
-		{
-			$token = JWT::decode($jwt, SECRET_KEY, ALGORITMO);
-			$data = json_decode(json_encode($token), true);
-			print_r($data['id']);
-			print_r($data['nombre']);
-
-
-			header(' ', true, 200);
-			header('Content-type: application/json');
-			echo json_encode('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
-		}
-		catch(Exception $e) 
-		{
-			header(' ', true, 401);
-		}
-	
-	} else {
-		header(' ', true, 401);
-	}
-}
 
 function getProfileTutorials(){
 
@@ -193,7 +166,16 @@ function getProfileInfo(){
 
 	$authHeader = getallheaders();
 	$userdata = validateUser($authHeader);
-	output($userdata);
+	$id = $userdata['id'];
+	$db = databaseConection();
+	$result = mysqli_query($db,"SELECT * FROM usuario WHERE id = $id");
+	if($result===false){
+		outputError(500);
+	}
+
+	$fila = mysqli_fetch_assoc($result);
+	$data = ["id" => $fila['id'],"nombre" => $fila['nombre'],"apellido" => $fila['apellido'],"correo" => $fila['correo'],"imagen" => $fila['imagen'],"descripcion" => $fila['descripcion']];
+	output($data);
 
 }
 
@@ -229,3 +211,36 @@ function output($val, $headerStatus = 200){
 }
 
 ?>
+
+
+
+
+
+<!-- function getTexto() {
+	
+	$authHeader = getallheaders();
+
+    if (isset($authHeader['Authorization'])) {
+
+		list($jwt) = sscanf( $authHeader['Authorization'], 'Bearer %s');
+		try
+		{
+			$token = JWT::decode($jwt, SECRET_KEY, ALGORITMO);
+			$data = json_decode(json_encode($token), true);
+			print_r($data['id']);
+			print_r($data['nombre']);
+
+
+			header(' ', true, 200);
+			header('Content-type: application/json');
+			echo json_encode('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+		}
+		catch(Exception $e) 
+		{
+			header(' ', true, 401);
+		}
+	
+	} else {
+		header(' ', true, 401);
+	}
+} -->
