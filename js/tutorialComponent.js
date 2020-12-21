@@ -1,7 +1,7 @@
 app = angular.module("myApp");
 app.component("tutorial",{
     templateUrl: 'vistas/tutorial.html',
-    controller: function($sce,$window,$http){
+    controller: function($sce,$window,$http,$location){
         ctrl = this;
 
         ctrl.$onInit = function(){
@@ -9,7 +9,7 @@ app.component("tutorial",{
             ctrl.id_tutorial = undefined;
             ctrl.titulo = '';
             ctrl.descripcion = '';
-            ctrl.imagen = 'Imagenes/default_img.png';
+            ctrl.imagen = 'Imagenes/default_tutorial.png';
             ctrl.etiquetas = [];
             ctrl.herramientas = [];
             ctrl.imagenActiva = undefined;
@@ -185,7 +185,11 @@ app.component("tutorial",{
 			}
 		}
 
-
+        ctrl.irUrl = function($path){
+            if(confirm("Desea salir del editor?")){
+                $location.url('/' + $path);
+            }
+        }
 
     },
 

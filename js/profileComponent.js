@@ -43,7 +43,11 @@ angular.module("myApp")
 				$auth.removeToken();
 				$location.url('/landing');
 			}
-		}
+        }
+        
+        ctrl.irUrl = function($path){
+            $location.url('/' + $path);
+        }
 
     },
 });

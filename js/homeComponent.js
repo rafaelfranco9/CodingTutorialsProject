@@ -15,6 +15,9 @@ angular.module('myApp')
 			}
 		}
 
+		ctrl.irUrl = function($path){
+            $location.url('/' + $path);
+        }
 
 
 

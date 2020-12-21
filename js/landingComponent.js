@@ -4,12 +4,8 @@ angular.module('myApp')
     controller: function($location){
         ctrl = this;
 
-        ctrl.iniciarSesion = function(){
-            $location.url('/login');
-        }
-
-        ctrl.registrarse = function(){
-            $location.url('/signUp');     
+        ctrl.irUrl = function($path){
+            $location.url('/' + $path);
         }
 
     },
