@@ -4,10 +4,10 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="" ng-click="$ctrl.irUrl('home')" class="nav-link">Tutoriales</a>
+                    <a href="" ng-click="$ctrl.irUrl('home',1)" class="nav-link">Tutoriales</a>
                 </li>
                 <li class="nav-item">
-                    <a href="" ng-click="$ctrl.irUrl('profile')" class="nav-link">Mi Perfil</a>
+                    <a href="" ng-click="$ctrl.irUrl('profile',1)" class="nav-link">Mi Perfil</a>
                 </li>
                 <li class="nav-item">
                     <a href="" ng-click="$ctrl.logout()" class="nav-link">Logout</a>
@@ -21,7 +21,7 @@
         <div class="col-md-12 d-flex justify-content-end">
             <button ng-disabled="$ctrl.titulo == null || $ctrl.titulo == ''" class="btn bg-white" type="submit" ng-click="$ctrl.guardar(1)">Guardar</button>
             <button ng-disabled="$ctrl.titulo == null || $ctrl.titulo == ''" class="btn bg-white" style="margin-left: 1rem !important;" type="submit" ng-click="$ctrl.guardar(2)">Guardar y Publicar</button>
-            <button ng-click="$ctrl.irUrl('profile')" class="btn bg-white" style="margin-left: 1rem !important;" type="submit">Descartar</button>
+            <button ng-click="$ctrl.irUrl('profile',1)" class="btn bg-white" style="margin-left: 1rem !important;" type="submit">Descartar</button>
         </div>
     </div>
     <div class="row">

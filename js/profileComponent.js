@@ -76,8 +76,9 @@ angular.module("myApp")
         ctrl.editarPerfil = function(){
             ctrl.copiaDataUsuario = Object.assign({},ctrl.dataUsuario);
         }
+        
         ctrl.guardarCambiosPerfil = function(){
-            
+
             ctrl.dataUsuario = ctrl.copiaDataUsuario;
             ctrl.uploadFiles();
             borrarFotoAnterior();
