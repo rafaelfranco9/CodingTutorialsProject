@@ -200,7 +200,7 @@ function getProfileTutorials(){
 	$tutoriales = [];
 
 	$userId = $userdata['id'];
-	$result = mysqli_query($db,"SELECT t.id,t.titulo,t.descripcion,t.imagen,t.estado from tutorial_usuario AS tu
+	$result = mysqli_query($db,"SELECT t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas from tutorial_usuario AS tu
 								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
 								WHERE tu.id_usuario = $userId");
 	if($result === false){
@@ -208,7 +208,7 @@ function getProfileTutorials(){
 	}
 
 	while($fila = mysqli_fetch_assoc($result)){
-		$tutoriales [] = ["id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"]];
+		$tutoriales [] = ["id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas']];
 	}
 
 	output($tutoriales);

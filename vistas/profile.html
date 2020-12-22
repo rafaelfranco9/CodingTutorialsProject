@@ -59,14 +59,18 @@
                         <div class="col-md-3">
                             <img ng-src="{{tutorial.imagen}}" class="img-fluid rounded m-2" alt="img-tutorial" style="width: 140px; height: 120px;">
                         </div>
-                        <div class="col-md-6 align-self-center">
+                        <div class="col-md-7 align-self-center">
                             <h3>{{tutorial.titulo}}</h3>
                             <p class="m-0">Cantidad de visitas: 200</p>
                             <p class="m-0">Comentarios: 100</p>
                         </div>
-                        <div class="col-md-3 d-flex justify-content-between align-self-end mb-1">
-                            <a href="" ng-click="$ctrl.editarTutorial(tutorial.id)" class="text-decoration-none">Editar</a>
-                            <a href="" ng-click="$ctrl.borrarTutorial(tutorial.id)" class="text-decoration-none">Eliminar</a>
+                        <!-- d-flex justify-content-between align-self-end mb-1" -->
+                        <div class="col-md-2 d-flex flex-column justify-content-between mb-1">
+                            <p class="d-flex justify-content-end mt-1">{{tutorial.estado}}</p>
+                            <div class="d-flex justify-content-end">
+                                <a href="" ng-click="$ctrl.editarTutorial(tutorial.id)" class="text-decoration-none" style="margin-right: 5px;">Editar</a>
+                                <a href="" ng-click="$ctrl.borrarTutorial(tutorial.id)" class="text-decoration-none">Eliminar</a>
+                            </div>
                         </div>
                     </div>
                 </div>
