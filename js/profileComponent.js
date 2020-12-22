@@ -6,6 +6,7 @@ angular.module("myApp")
 
         ctrl.$onInit = function(){
             ctrl.tutoriales = [];
+            ctrl.copiaDataUsuario = {};
             ctrl.buscarInfoUsuario();
             ctrl.buscarTutoriales();
             $rootScope.info = {"editando": false, "id_tutorial": 0};
@@ -30,7 +31,11 @@ angular.module("myApp")
             $http.get('api/ProfileInfo')
             .then(function(response){
                 ctrl.dataUsuario = response.data;
-                
+                if(ctrl.dataUsuario.imagen != 'Imagenes/default_profile.png'){
+                    ctrl.dataUsuario.imagen = 'usuarios/USER_' + ctrl.dataUsuario.id + '/imagenes/' + ctrl.dataUsuario.imagen;
+                    ctrl.imagenAnterior = ctrl.dataUsuario.imagen;
+                    console.log(ctrl.imagenAnterior);
+                }
             })
             .catch(function(response){
                 alert('no funciona');
@@ -66,6 +71,67 @@ angular.module("myApp")
         
         ctrl.irUrl = function($path){
             $location.url('/' + $path);
+        }
+
+        ctrl.editarPerfil = function(){
+            ctrl.copiaDataUsuario = Object.assign({},ctrl.dataUsuario);
+        }
+        ctrl.guardarCambiosPerfil = function(){
+
+            borrarFotoAnterior();
+
+            // ctrl.dataUsuario = ctrl.copiaDataUsuario;
+            // ctrl.uploadFiles();
+            // $http.post('api/UserData',ctrl.dataUsuario)
+            // .then(function(response){
+            //     alert('datos actualizados con exito');
+            // })
+            // .catch(function(response){
+            //     alert('ocurrio un problema actualizando los datos');
+            // });
+            // location.reload();
+
+        }
+
+        function borrarFotoAnterior(){
+            ctrl.dataUsuario.imagen = '';
+            if(ctrl.dataUsuario.imagen != 'Imagenes/default_profile.png' && ctrl.imagenAnterior != ctrl.dataUsuario.imagen){
+                $http.delete('api/LastProfilePic',{data:({imagen: ctrl.imagenAnterior})})
+                .then(function(response){
+                    
+                })
+                .catch(function(response){
+    
+                });
+            }
+
+        }
+
+        ctrl.cargarFoto = function(){
+            
+            var file = document.getElementById('imgToLoad');
+            if(file.files[0]!= undefined){
+                ctrl.dataUsuario.imagen = URL.createObjectURL(file.files[0]);
+            }
+        }
+
+        ctrl.uploadFiles = function(){
+
+            var form_data = new FormData();
+            var file = document.getElementById('imgToLoad');
+            ctrl.dataUsuario.imagen = file.files[0].name;
+
+            if(file.files[0]!= undefined){
+                form_data.append('file[]',file.files[0]);
+                $http.post('api/loadImages',form_data,
+                {
+                    transformRequest:angular.identity,
+                    headers: {'Content-Type':undefined,'Process-Data':false}
+                }).then(function(response){
+                    alert(response);
+                });
+            }
+
         }
 
     },

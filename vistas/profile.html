@@ -21,7 +21,7 @@
         <div class="col-md-5  bg-white rounded">
             <div class="row">
                 <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <img ng-src="{{$ctrl.dataUsuario.imagen}}" class="rounded-circle mt-2 mb-2" style="width: 100px; height: 100px;" alt="img-perfil">
+                    <img ng-src="{{$ctrl.dataUsuario.imagen}}" class="rounded-circle mt-2 mb-2" style="width: 100px; height: 100px;" alt="img-perfil" id="profileImg">
                 </div>
                 <div class="col-md-8 align-self-center">
                     <div class="row">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="col-md-1 d-flex justify-content-end ">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="mt-1 text-decoration-none">Editar</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" ng-click="$ctrl.editarPerfil()" class="mt-1 text-decoration-none">Editar</a>
                 </div>
             </div>
         </div>
@@ -93,19 +93,19 @@
                     <input class="form-control" id="imgToLoad" type="file" name="fotoPerfil"  accept="image/*" id="imageFile">
                     <br>
                     <label class="form-label" for="Nombre">Nombre</label>
-                    <input type="text" class="form-control"  ng-model="$ctrl.dataUsuario.nombre" style="width:50%"> <!--ver si combiene poner una copia de los datos-->
+                    <input type="text" class="form-control"  ng-model="$ctrl.copiaDataUsuario.nombre" style="width:50%"> <!--ver si combiene poner una copia de los datos-->
                     <br>
                     <label class="form-label" for="Nombre">Apellido</label>
-                    <input type="text" class="form-control" ng-model="$ctrl.dataUsuario.apellido" style="width:50%">
+                    <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.apellido" style="width:50%">
                     <br>
                     <label class="form-label" for="Nombre">Descripcion</label>
-                    <input type="text" class="form-control" ng-model="$ctrl.dataUsuario.descripcion" max="100">
+                    <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.descripcion" max="100">
                 </form>
 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.cargarFoto()">Guardar</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.guardarCambiosPerfil()">Guardar</button>
             </div>
           </div>
         </div>

@@ -190,6 +190,27 @@ function getProfileTutorials(){
 	output($tutoriales);
 }
 
+
+function postUserData(){
+
+	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
+	$userdata = json_decode(file_get_contents("php://input"), true);
+	$db = databaseConection();
+	$nombre = mysqli_real_escape_string($db,$userdata['nombre']);
+	$apellido = mysqli_real_escape_string($db,$userdata['apellido']);
+	$descripcion = mysqli_real_escape_string($db,$userdata['descripcion']);
+	$imagen = $userdata['imagen'];
+	$id_user = $data['id'];
+	$sql = "UPDATE usuario SET nombre = '$nombre',apellido='$apellido',descripcion='$descripcion',imagen='$imagen' WHERE id = $id_user";
+	$result = mysqli_query($db,$sql);
+	if($result === false){
+		outputError(401);
+	}
+	header(' ', true, 200);
+
+}
+
 function getProfileInfo(){
 
 	$authHeader = getallheaders();
@@ -207,6 +228,23 @@ function getProfileInfo(){
 
 }
 
+function deleteLastProfilePic(){
+	$data = json_decode(file_get_contents("php://input"), true);
+	$authHeader = getallheaders();
+	$userdata = validateUser($authHeader);
+	$filePath = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/".$data['imagen'];
+	echo $filePath;
+	if(file_exists($filePath)){
+
+		if(unlink($filePath)){
+			header(' ', true, 200);
+		}else{
+			outputError(500);
+		}
+
+	}
+
+}
 
 function validateUser($authHeader){
 
