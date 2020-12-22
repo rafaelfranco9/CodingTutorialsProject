@@ -77,24 +77,23 @@ angular.module("myApp")
             ctrl.copiaDataUsuario = Object.assign({},ctrl.dataUsuario);
         }
         ctrl.guardarCambiosPerfil = function(){
-
+            
+            ctrl.dataUsuario = ctrl.copiaDataUsuario;
+            ctrl.uploadFiles();
             borrarFotoAnterior();
-
-            // ctrl.dataUsuario = ctrl.copiaDataUsuario;
-            // ctrl.uploadFiles();
-            // $http.post('api/UserData',ctrl.dataUsuario)
-            // .then(function(response){
-            //     alert('datos actualizados con exito');
-            // })
-            // .catch(function(response){
-            //     alert('ocurrio un problema actualizando los datos');
-            // });
-            // location.reload();
+            $http.post('api/UserData',ctrl.dataUsuario)
+            .then(function(response){
+                alert('datos actualizados con exito');
+            })
+            .catch(function(response){
+                alert('ocurrio un problema actualizando los datos');
+            });
+            location.reload();
 
         }
 
         function borrarFotoAnterior(){
-            ctrl.dataUsuario.imagen = '';
+           
             if(ctrl.dataUsuario.imagen != 'Imagenes/default_profile.png' && ctrl.imagenAnterior != ctrl.dataUsuario.imagen){
                 $http.delete('api/LastProfilePic',{data:({imagen: ctrl.imagenAnterior})})
                 .then(function(response){
