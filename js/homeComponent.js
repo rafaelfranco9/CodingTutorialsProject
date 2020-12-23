@@ -5,7 +5,10 @@ angular.module('myApp')
         ctrl = this;
         
 		ctrl.datosUsuario = $auth.getPayload();
-	
+		ctrl.$onInit = function(){
+			ctrl.buscarTutoriales();
+		}
+
 
 		ctrl.logout = function () {
 			if(confirm("Desea salir del sistema?")){
@@ -19,6 +22,23 @@ angular.module('myApp')
             $location.url('/' + $path);
         }
 
+
+        ctrl.buscarTutoriales = function(){
+
+            $http.get('api/PublishedTutorials')
+            .then(function(response){
+                ctrl.tutoriales = response.data;
+                
+            })
+            .catch(function(response){
+                alert('no funciona');
+            });
+
+        }
+
+		ctrl.convertLabels = function(labels){
+			return JSON.parse(labels);
+		}
 
 
     }

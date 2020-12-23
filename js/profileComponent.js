@@ -18,7 +18,6 @@ angular.module("myApp")
             $http.get('api/ProfileTutorials')
             .then(function(response){
                 ctrl.tutoriales = response.data;
-                
             })
             .catch(function(response){
                 alert('no funciona');
@@ -32,9 +31,7 @@ angular.module("myApp")
             .then(function(response){
                 ctrl.dataUsuario = response.data;
                 if(ctrl.dataUsuario.imagen != 'Imagenes/default_profile.png'){
-                    ctrl.dataUsuario.imagen = 'usuarios/USER_' + ctrl.dataUsuario.id + '/imagenes/' + ctrl.dataUsuario.imagen;
                     ctrl.imagenAnterior = ctrl.dataUsuario.imagen;
-                    console.log(ctrl.imagenAnterior);
                 }
             })
             .catch(function(response){
@@ -119,9 +116,9 @@ angular.module("myApp")
 
             var form_data = new FormData();
             var file = document.getElementById('imgToLoad');
-            ctrl.dataUsuario.imagen = file.files[0].name;
-
+        
             if(file.files[0]!= undefined){
+                ctrl.dataUsuario.imagen = 'usuarios/USER_' + ctrl.dataUsuario.id + '/imagenes/' + file.files[0].name;
                 form_data.append('file[]',file.files[0]);
                 $http.post('api/loadImages',form_data,
                 {

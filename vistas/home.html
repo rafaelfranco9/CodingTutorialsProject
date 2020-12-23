@@ -37,28 +37,28 @@
            </ul>
         </div>
         <div class="col-md-9">
-            <div class="card" style="width: 35rem;">
+            <div class="card mb-3" style="width: 35rem;" ng-repeat="tutorial in $ctrl.tutoriales track by $index">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-header row">
                             <div class="col-md-3 text-center">
-                                <img ng-src="Imagenes/perfil.jpg" class="rounded-circle mt-1" style="width: 80px; height: 80px;" alt="img-perfil">
+                                <img ng-src="{{tutorial.imagen_usuario}}" class="rounded-circle mt-1" style="width: 80px; height: 80px;" alt="img-perfil">
                             </div>
                             <div class="col-md-6 d-flex justify-content-start align-items-center">
                                 <ul class="list-unstyled">
-                                    <li>Desarrollado por: Rafael Franco</li>
-                                    <li>Tutoriales: 15</li>
-                                    <li>Puntaje: 9/10</li>
+                                    <li style="text-transform: capitalize;" >Desarrollado por: {{tutorial.nombre}} {{tutorial.apellido}}</li>
+                                    <li>Tutoriales: 0</li>
+                                    <li>Puntaje: 0/10</li>
                                 </ul>
                             </div>
                             <div class="col-md-3 d-flex justify-content-center align-items-center">
-                                <img ng-src="Imagenes/python.jpg" class="img-fluid rounded" alt="img-tutorial" style="width: 100px; height: 80px;">
+                                <img ng-src="{{tutorial.imagen}}" class="img-fluid rounded" alt="img-tutorial" style="width: 100px; height: 80px;">
                             </div>
                         </div>
                         <div class="card-body row">
                             <div class="col-md-12 d-flex align-items-center justify-content-start">
                                 <p class="d-inline m-0">Tutorial:</p>
-                                <h3 class="card-title d-inline m-0" style="padding-left: 10px !important;">Web Scraping Python</h3>
+                                <h3 class="card-title d-inline m-0" style="padding-left: 10px !important;">{{tutorial.titulo}}</h3>
                             </div>
                         </div>
                         <div class="card-footer row">
@@ -70,9 +70,7 @@
                                 </ul>
                             </div>
                             <div class="col-12">
-                                <span class="badge rounded-pill bg-primary d-inline">python</span>
-                                <span class="badge rounded-pill bg-primary d-inline">scraping</span>
-                                <span class="badge rounded-pill bg-primary d-inline">programming</span>
+                                <span ng-repeat="label in $ctrl.convertLabels(tutorial.etiquetas)" class="badge rounded-pill bg-primary d-inline">{{label}}</span>
                             </div>
                         </div>
                     </div>
@@ -83,11 +81,3 @@
 
 </div>
 
-
-
-
-
-
-
-<!-- <h1>Bienvenido {{$ctrl.datosUsuario.nombre}} {{$ctrl.datosUsuario.apellido}}</h1>
-<button ng-click="$ctrl.logout()">Logout</button> -->

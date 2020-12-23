@@ -51,43 +51,34 @@ app.component("tutorial",{
 
         function creadorHerramienta(herramienta){
 
-            obj = {
-                indice:undefined,
-                label:undefined,
-                html_tutorial:undefined,
-                html_view:undefined,
-                valor:undefined
-            }
-            ctrl.herramientas.push(obj);
+            ctrl.herramientas.push({});
             cantidadObjetos = ctrl.herramientas.length-1;
+            ctrl.herramientas[cantidadObjetos].indice = cantidadObjetos;
 
             switch (herramienta) {
                 case 'codigo':
-                    ctrl.herramientas[cantidadObjetos].indice = cantidadObjetos;
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea id="codigo" spellcheck="false" oninput="autosize(this)" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="codigo" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'code';
                     break;
                 case 'texto':
-                    ctrl.herramientas[cantidadObjetos].indice = cantidadObjetos;
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea id="texto" spellcheck="false" oninput="autosize(this)"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="texto" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'text';
                     break;
                 case 'url':
-                    ctrl.herramientas[cantidadObjetos].indice = cantidadObjetos;
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<input type="text" id="texto" spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<input type="text" id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
                     ctrl.herramientas[cantidadObjetos].label = 'url';
                     break;
                 case 'image':
-                    ctrl.herramientas[cantidadObjetos].indice = cantidadObjetos;
                     ctrl.herramientas[cantidadObjetos].urlImagen = 'Imagenes/default_img.png';
-                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" ng-src="{{$ctrl.editando ? $ctrl.herramientas[' + cantidadObjetos + '].valor : $ctrl.herramientas[' + cantidadObjetos + '].urlImagen}}" style="width:{{$ctrl.herramientas[' + cantidadObjetos + '].ancho}}px; height:{{$ctrl.herramientas[' + cantidadObjetos + '].alto}}px" alt="user_image"><button ng-click="$ctrl.imgActiva(' + cantidadObjetos + ')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-dark">Add/Change Image</button>';
+                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" ng-src="{{$ctrl.herramientas[' + cantidadObjetos + '].imagenGuardada ? $ctrl.herramientas[' + cantidadObjetos + '].valor : $ctrl.herramientas[' + cantidadObjetos + '].urlImagen}}" style="width:{{$ctrl.herramientas[' + cantidadObjetos + '].ancho}}px; height:{{$ctrl.herramientas[' + cantidadObjetos + '].alto}}px" alt="user_image"><button ng-click="$ctrl.imgActiva(' + cantidadObjetos + ')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-dark">Add/Change Image</button>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" class="img-thumbnail" ng-src="{{$ctrl.herramientas[' + cantidadObjetos + '].url}}" style="width: 200px; height: 200px;" alt="user_image">';
                     ctrl.herramientas[cantidadObjetos].label = 'image';
                     ctrl.herramientas[cantidadObjetos].ancho = ctrl.ancho;
                     ctrl.herramientas[cantidadObjetos].alto = ctrl.alto;
+                    ctrl.herramientas[cantidadObjetos].imagenGuardada = false;
                     ctrl.imagenActiva = cantidadObjetos;
                     break;
             
@@ -101,29 +92,28 @@ app.component("tutorial",{
         ctrl.cargarTutorial = function(id_tutorial){
 
             $http.get('api/Tutorial/' + id_tutorial)
-            .then(function(response){
-                ctrl.tutorialEditar = response.data;
-            
-                ctrl.id_tutorial = ctrl.tutorialEditar.id;
-                ctrl.titulo = ctrl.tutorialEditar.titulo;
-                ctrl.descripcion = ctrl.tutorialEditar.descripcion;
-                ctrl.imagen = ctrl.tutorialEditar.imagen;
-                ctrl.etiquetas = JSON.parse(ctrl.tutorialEditar.etiquetas);                
-                ctrl.herramientasBaseDatos = JSON.parse(ctrl.tutorialEditar.herramientas);
+                .then(function(response){
 
-                ctrl.herramientas = ctrl.herramientasBaseDatos.map(function(value){
-                    value.html_tutorial = value.html_tutorial.replace(/@/g,'"');
-                    value.html_view = value.html_view.replace(/@/g,'"');
-                    return value;
+                    ctrl.tutorialEditar = response.data;
+                    ctrl.id_tutorial = ctrl.tutorialEditar.id;
+                    ctrl.titulo = ctrl.tutorialEditar.titulo;
+                    ctrl.descripcion = ctrl.tutorialEditar.descripcion;
+                    ctrl.imagen = ctrl.tutorialEditar.imagen;
+                    ctrl.etiquetas = JSON.parse(ctrl.tutorialEditar.etiquetas);                
+                    ctrl.herramientasBaseDatos = JSON.parse(ctrl.tutorialEditar.herramientas);
+
+                    ctrl.herramientas = ctrl.herramientasBaseDatos.map(function(value){
+                        value.html_tutorial = value.html_tutorial.replace(/@/g,'"');
+                        value.html_view = value.html_view.replace(/@/g,'"');
+                        return value;
+                    })
+
+                
                 })
-
-                console.log(ctrl.herramientas);
-               
-            })
-            .catch(function(response){
-                alert('No se pudo cargar correctamente el tutorial');
-                ctrl.irUrl('profile',2);
-            });
+                .catch(function(response){
+                    alert('No se pudo cargar correctamente el tutorial');
+                    ctrl.irUrl('profile',2);
+                });
 
 
         }
@@ -137,7 +127,7 @@ app.component("tutorial",{
         }
 
         ctrl.guardar = function(opcion){
-            
+                  
             //Guardar todas las imagenes
             ctrl.uploadFiles();
 
@@ -145,6 +135,11 @@ app.component("tutorial",{
             ctrl.herramientasBaseDatos = ctrl.herramientas.map(function(value){
                 value.html_tutorial = value.html_tutorial.replace(/"/g,'@');
                 value.html_view = value.html_view.replace(/"/g,'@');
+                
+                //estatus de las imagenes
+                if(value.label == 'image'){
+                    value.imagenGuardada = true;
+                }
                 return value;
             })
 
@@ -161,25 +156,27 @@ app.component("tutorial",{
 
             //Guardar la informacion del tutorial
             $http.post('api/loadTutorial',ctrl.tutorial)
-            .then(function(response){
-
-                alert('se guardo el tutorial con exito');
-                ctrl.irUrl('profile',2);
-            })
-            .catch(function(response){
-                alert('no se guardo el tutorial con exito');
-            });
+                .then(function(response){
+                    alert('se guardo el tutorial con exito');
+                    ctrl.irUrl('profile',2);
+                })
+                .catch(function(response){
+                    alert('no se guardo el tutorial con exito');
+                });
         
         }
 
         ctrl.cargarFoto = function(){
             
+            //Cargar una foto sin guardarla en la base de datos
+            ctrl.herramientas[ctrl.imagenActiva].imagenGuardada = false;
             var file = document.getElementById('imgToLoad');
             ctrl.herramientas[ctrl.imagenActiva].urlImagen = URL.createObjectURL(file.files[0]);
             ctrl.herramientas[ctrl.imagenActiva].valor = 'usuarios/USER_' + ctrl.dataUsuario.id + '/imagenes/' + file.files[0].name;
             ctrl.herramientas[ctrl.imagenActiva].ancho = ctrl.ancho;
             ctrl.herramientas[ctrl.imagenActiva].alto = ctrl.alto;
 
+            //Arreglo de todas las imagenes insertadas
             var key = ctrl.imagenActiva.toString();
             ctrl.archivosImagenes[key] = file.files[0];            
 

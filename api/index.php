@@ -91,6 +91,7 @@ function postSignUp(){
 		try{
 			mkdir("../usuarios/USER_".$userId);
 			mkdir("../usuarios/USER_".$userId."/imagenes");
+			mkdir("../usuarios/USER_".$userId."/tutoriales");
 		}catch(Exception $e){
 			echo 'No se pudo crear el directorio ',$e->getMessage();
 		}
@@ -174,8 +175,6 @@ function postloadImages(){
 	$data = validateUser($authHeader);
 	$user = 'USER_'.$data['id'];
 
-	echo $_FILES['file']['name']==null;
-
 	$count = count($_FILES['file']['name']);
 
 	for($i=0;$i<$count;$i++){
@@ -213,6 +212,30 @@ function getProfileTutorials(){
 
 	output($tutoriales);
 }
+
+function getPublishedTutorials(){
+
+	$authHeader = getallheaders();
+	$userdata = validateUser($authHeader);
+	$db = databaseConection();
+	$tutoriales = [];
+
+	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas from tutorial_usuario AS tu
+								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
+								INNER JOIN usuario AS u ON u.id = tu.id_usuario
+								WHERE t.estado = 'publicado'");
+	if($result === false){
+		outputError(500);
+	}
+
+	while($fila = mysqli_fetch_assoc($result)){
+		$tutoriales [] = ["id_usuario" => $fila['id_usuario'],"nombre" => $fila['nombre'], "apellido" => $fila['apellido'],"imagen_usuario" => $fila['imagen_usuario'],"id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas']];
+	}
+
+	output($tutoriales);
+	
+}
+
 
 
 function postUserData(){
