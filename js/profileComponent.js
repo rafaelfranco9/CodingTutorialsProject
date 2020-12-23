@@ -20,7 +20,7 @@ angular.module("myApp")
                 ctrl.tutoriales = response.data;
             })
             .catch(function(response){
-                alert('no funciona');
+                alert('no funciona tutoriales');
             });
 
         }
@@ -44,6 +44,7 @@ angular.module("myApp")
             $rootScope.info = {"editando": true, "id_tutorial": id};
             ctrl.irUrl('tutorial');
         }
+
         ctrl.borrarTutorial = function(id){
             if(confirm("Esta seguro que quiere borrar el tutorial?")){
                 $http.delete('api/Tutorial/' + id)
@@ -120,7 +121,7 @@ angular.module("myApp")
             if(file.files[0]!= undefined){
                 ctrl.dataUsuario.imagen = 'usuarios/USER_' + ctrl.dataUsuario.id + '/imagenes/' + file.files[0].name;
                 form_data.append('file[]',file.files[0]);
-                $http.post('api/loadImages',form_data,
+                $http.post('api/loadProfilePicture',form_data,
                 {
                     transformRequest:angular.identity,
                     headers: {'Content-Type':undefined,'Process-Data':false}
