@@ -1,7 +1,7 @@
 angular.module("myApp")
 .component("profile",{
     templateUrl:'vistas/profile.html',
-    controller: function($http,$location,$rootScope){
+    controller: function($http,$location,$rootScope,$auth){
         ctrl = this;
 
         ctrl.$onInit = function(){
