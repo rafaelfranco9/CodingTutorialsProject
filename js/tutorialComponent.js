@@ -162,7 +162,7 @@ app.component("tutorial",{
                     
                     if(value.valor != undefined){
                         value.valor = value.valor.replace(/"/g,"@");
-                        value.valor = value.valor.replace(/[\n\r]+/g,'<br>');
+                        value.valor = value.valor.replace(/\n/g,'<br>');
                     }   
                     
                     //estatus de las imagenes para la siguiente vez que se cargen
