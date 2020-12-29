@@ -24,6 +24,8 @@ app.component("tutorial",{
             ctrl.alto = 200;
             ctrl.editando = false;
             ctrl.datosUsuario = $auth.getPayload();
+            ctrl.imagenURL = undefined;
+            ctrl.imagenGuardada = true;
 
             if($rootScope.info.editando == true){
                 ctrl.cargarTutorial($rootScope.info.id_tutorial);
@@ -33,7 +35,6 @@ app.component("tutorial",{
                 ctrl.proximoIdTutorial(); 
                 ctrl.existe_tutorial = false;
             }
-            
 
         }
 
@@ -61,7 +62,6 @@ app.component("tutorial",{
 
         }
 
-
         //Funcion que crea los datos para la herramienta seleccionada
         function creadorHerramienta(herramienta){
 
@@ -72,7 +72,7 @@ app.component("tutorial",{
             switch (herramienta) {
 
                 case 'codigo':
-                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="codigo"  spellcheck="false" oninput="autosize(this)" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
+                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="codigo" ng-keydown="$ctrl.insertTab(' + cantidadObjetos + ', $event)" spellcheck="false" oninput="autosize(this)" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="codigo" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'code';
                     break;
@@ -84,7 +84,7 @@ app.component("tutorial",{
                     break;
 
                 case 'url':
-                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<input type="text" id="texto" spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
+                    ctrl.herramientas[cantidadObjetos].html_tutorial = '<input type="text"  autocomplete="off" id="texto" spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
                     ctrl.herramientas[cantidadObjetos].html_view = '<input type="text" id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
                     ctrl.herramientas[cantidadObjetos].label = 'url';
                     break;
@@ -114,7 +114,7 @@ app.component("tutorial",{
                 .then(function(response){
                     //Respuesta del servidor
                     ctrl.tutorialEditar = response.data;
-                    console.log(ctrl.tutorialEditar);
+
                     //Cargar los datos a las variables que corresponden
                     ctrl.id_tutorial = ctrl.tutorialEditar.id;
                     ctrl.titulo = ctrl.tutorialEditar.titulo;
@@ -248,6 +248,12 @@ app.component("tutorial",{
 
         }
 
+        ctrl.cargarFotoTutorial = function(){
+            var file = document.getElementById('imageFileTutorial');
+            ctrl.imagenURL = URL.createObjectURL(file.files[0]);
+            ctrl.imagenGuardada = false;
+        }
+
 
         ctrl.imgActiva = function(num){
             ctrl.imagenActiva = num;
@@ -308,7 +314,7 @@ app.component("tutorial",{
         ctrl.irUrl = function($path,$opcion){
             
             if($opcion==1){
-        
+
                 if(confirm("Desea salir del editor?")){
                     $location.url('/' + $path);
                 }
@@ -328,7 +334,16 @@ app.component("tutorial",{
             $window.open('http://' + link, '_blank');
         }
 
-
+        ctrl.insertTab = function(index, e){
+          
+            if (e.keyCode == 9) {
+                e.preventDefault();
+                var start = e.target.selectionStart;
+                var end = e.target.selectionEnd;
+                ctrl.herramientas[index].valor = ctrl.herramientas[index].valor.substring(0, start) + '  ' + ctrl.herramientas[index].valor.substring(end);
+                e.target.selectionStart = e.target.selectionEnd = start + 1;
+              }
+        }
 
     },
 
@@ -344,20 +359,6 @@ app.directive('compile',function($compile, $timeout,autosize){
         },
     };
 });
-
-
-// app.directive('autosize',['autosize',function(autosize){
-//     return{
-//         restrict: 'A',
-//         compile: function(element,attr){
-//             return function postLink(scope,element,attr){
-//                 var ta = element[0];
-
-                
-//             };
-//         }
-//     };
-// }]);
 
 app.directive('elastic', [
     '$timeout',
@@ -376,6 +377,20 @@ app.directive('elastic', [
         };
     }
 ]);
+
+// app.directive('autosize',['autosize',function(autosize){
+//     return{
+//         restrict: 'A',
+//         compile: function(element,attr){
+//             return function postLink(scope,element,attr){
+//                 var ta = element[0];
+
+                
+//             };
+//         }
+//     };
+// }]);
+
 
 
 

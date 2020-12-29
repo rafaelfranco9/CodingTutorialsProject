@@ -41,7 +41,7 @@
             <div class="mb-3 row">
                 <label for="Imagen" class="col-sm-2 col-form-label" style="color: white;">Imagen</label>
                 <div class="col-sm-10">
-                    <input class="form-control"  type="file" accept="image/*" id="imageFileTutorial" >
+                    <input class="form-control" onchange="$('#exampleModalCenter').modal('show');" type="file" accept="image/*" id="imageFileTutorial" >
                 </div>
             </div>
             <div class="mb-3 row">
@@ -61,6 +61,9 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 d-flex flex-column justify-content-end">
+                <img ng-src="{{$ctrl.imagenGuardada == true ? $ctrl.imagen : $ctrl.imagenURL}}" class="mb-4 img-thumbnail " style="width: 120px; height: 120px;" alt="">
+        </div>
     </div>
 
     <!--Aqui comienza la parte de edicion-->
@@ -68,10 +71,10 @@
         <div class="col-md-2">
             <p class="text-white font-weight-light text-center mb-1">Herramientas</p>
             <ul class="list-group">
-                <li class="list-group-item"><button ng-click="$ctrl.agregar('codigo')" class="btn">Code</button></li>
-                <li class="list-group-item"><button ng-click="$ctrl.agregar('texto')" class="btn">Text</button></li>
-                <li class="list-group-item"><button ng-click="$ctrl.agregar('url')" class="btn">Url</button></li>
-                <li class="list-group-item"><button ng-click="$ctrl.agregar('image')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn">Image</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('codigo')" class="btn" style="width: 100%;">Code</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('texto')" class="btn" style="width: 100%;">Text</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('url')" class="btn" style="width: 100%;">Url</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('image')" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn">Image</button></li>
             </ul>
         </div>
         <div class="col-md-10">
@@ -103,7 +106,7 @@
         <div style="height: 80px;"></div>
     </footer>
 
-    <!--Modal for image-->
+    <!--modal para las fotos de las herramientas-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -133,6 +136,26 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal para la foto principal del tutorial -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Confirmar cambio de imagen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- <div class="modal-body">
+                <h3></h3>    
+            </div> -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.cargarFotoTutorial()">Cambiar imagen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 </div>
 
