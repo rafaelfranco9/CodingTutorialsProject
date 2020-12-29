@@ -23,6 +23,12 @@ angular.module('myApp', [ 'ngRoute', 'satellizer','ngSanitize'])
 				necesitaLogin: loginRequerido
 			},
 		})
+		.when("/showTutorial",{
+			template: '<show-tutorial></show-tutorial>',
+			resolve: {
+				necesitaLogin: loginRequerido
+			},
+		})
 		.when("/profile",{
 			template: '<profile></profile>',
 			resolve: {
