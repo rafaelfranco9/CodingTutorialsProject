@@ -1,1 +1,58 @@
-<h1>hola mundo</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand">Coding Tutorials</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href ng-click="$ctrl.irUrl('home')" class="nav-link">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-2">
+            <button ng-click="$ctrl.irUrl('home')" class="btn btn-secondary btn-sm">Volver</button>
+        </div>
+        <div class="col-md-10 d-flex justify-content-end align-items-center">
+            <img ng-src="{{$ctrl.dataUsuario.imagen}}" class="rounded-circle" style="width: 40px; height: 40px;" alt="">
+            <p class="fs-6 fw-light text-white mb-0 ms-1" style="text-transform: capitalize;" >{{$ctrl.dataUsuario.nombre}} {{$ctrl.dataUsuario.apellido}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <h1 class="display-6 text-white">{{$ctrl.titulo}}</h1>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-7 d-flex justify-content-center flex-column align-self-center">
+            <p ng-show="$ctrl.descripcion" class="text-white m-0" style="font-size: 9px;">Descripcion</p>
+            <p class="fs-6 fw-light text-white m-0 align-self-center">{{$ctrl.descripcion}}</p>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-md-10 bg-white rounded p-4" style="min-height:500px ;">
+            <div class="row">
+
+                <div class="col-md-12"  ng-repeat="herramienta in $ctrl.herramientas track by $index">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label">{{herramienta.label}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div compile ng-bind-html="$ctrl.getString(herramienta)"></div>
+                        </div>
+                    </div>  
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="height: 80px;"></div>
+    </footer>
+</div>

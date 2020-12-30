@@ -73,26 +73,27 @@ app.component("tutorial",{
 
                 case 'codigo':
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="codigo" ng-keydown="$ctrl.insertTab(' + cantidadObjetos + ', $event)" spellcheck="false" oninput="autosize(this)" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="codigo" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="codigo" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'code';
                     break;
 
                 case 'texto':
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="texto" spellcheck="false" oninput="autosize(this)"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="texto" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'text';
                     break;
 
                 case 'url':
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<input type="text"  autocomplete="off" id="texto" spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<input type="text" id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<input type="text" id="texto" readonly spellcheck="false"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 urlinput"><button class="btn btn-sm mb-1 bg-light" ng-click="$ctrl.openLink($ctrl.herramientas[' + cantidadObjetos + '].valor)">Ir</button>';
                     ctrl.herramientas[cantidadObjetos].label = 'url';
                     break;
 
                 case 'image':
                     ctrl.herramientas[cantidadObjetos].urlImagen = 'Imagenes/default_img.png';
+                    ctrl.herramientas[cantidadObjetos].valor = 'Imagenes/default_img.png';
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" ng-src="{{$ctrl.herramientas[' + cantidadObjetos + '].imagenGuardada ? $ctrl.herramientas[' + cantidadObjetos + '].valor : $ctrl.herramientas[' + cantidadObjetos + '].urlImagen}}" style="width:{{$ctrl.herramientas[' + cantidadObjetos + '].ancho}}px; height:{{$ctrl.herramientas[' + cantidadObjetos + '].alto}}px" alt="user_image"><button ng-click="$ctrl.imgActiva(' + cantidadObjetos + ')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-dark">Add/Change Image</button>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" class="img-thumbnail" ng-src="{{$ctrl.herramientas[' + cantidadObjetos + '].url}}" style="width: 200px; height: 200px;" alt="user_image">';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<img id="image_display_' + cantidadObjetos + '" class="img-thumbnail" ng-src="{{$ctrl.herramientas[' + cantidadObjetos + '].valor}}" style="width:{{$ctrl.herramientas[' + cantidadObjetos + '].ancho}}px; height:{{$ctrl.herramientas[' + cantidadObjetos + '].alto}}px" alt="user_image">';
                     ctrl.herramientas[cantidadObjetos].label = 'image';
                     ctrl.herramientas[cantidadObjetos].ancho = ctrl.ancho;
                     ctrl.herramientas[cantidadObjetos].alto = ctrl.alto;
