@@ -1,7 +1,7 @@
 angular.module('myApp')
 .component('home',{
     templateUrl:'vistas/home.html',
-    controller: function($auth,$location,$http){
+    controller: function($auth,$location,$http,$rootScope){
         ctrl = this;
         
 		ctrl.datosUsuario = $auth.getPayload();
@@ -28,12 +28,16 @@ angular.module('myApp')
             $http.get('api/PublishedTutorials')
             .then(function(response){
                 ctrl.tutoriales = response.data;
-                
             })
             .catch(function(response){
                 alert('no funciona');
             });
 
+        }
+
+        ctrl.abrirTutorial = function(id){
+            $rootScope.tutorialSeleccionado = id;
+            ctrl.irUrl('showTutorial');
         }
 
 		ctrl.convertLabels = function(labels){

@@ -45,7 +45,7 @@
                                 <img ng-src="{{tutorial.imagen_usuario}}" class="rounded-circle mt-1" style="width: 80px; height: 80px;" alt="img-perfil">
                             </div>
                             <div class="col-md-6 d-flex justify-content-start align-items-center">
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled m-0">
                                     <li style="text-transform: capitalize;" >Desarrollado por: {{tutorial.nombre}} {{tutorial.apellido}}</li>
                                     <li>Tutoriales: 0</li>
                                     <li>Puntaje: 0/10</li>
@@ -55,22 +55,31 @@
                                 <img ng-src="{{tutorial.imagen}}" class="img-fluid rounded" alt="img-tutorial" style="width: 100px; height: 80px;">
                             </div>
                         </div>
-                        <div class="card-body row">
-                            <div class="col-md-12 d-flex align-items-center justify-content-start">
-                                <p class="d-inline m-0">Tutorial:</p>
-                                <h3 class="card-title d-inline m-0" style="padding-left: 10px !important;">{{tutorial.titulo}}</h3>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 d-flex align-items-center justify-content-start">
+                                    <p class="d-inline m-0">Tutorial:</p>
+                                    <h3 class="card-title d-inline m-0" style="padding-left: 10px !important;">{{tutorial.titulo}}</h3>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12 d-flex  flex-column justify-content-start">
+                                    <p class="m-0">Descripcion:</p>
+                                    <p class="m-0 font-weight-light">{{tutorial.descripcion}}</p>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer row">
-                            <div class="col-md-12 d-flex align-items-center">
-                                <ul class="list-unstyled">
+                            <div class="col-md-12 d-flex align-items-center justify-content-between">
+                                <ul class="list-unstyled m-0">
                                     <li>Lenguaje: Python</li>
                                     <li>Cantidad de visitas: 120</li>
                                     <li>Comentarios: 3</li>
                                 </ul>
+                                <button ng-click="$ctrl.abrirTutorial(tutorial.id)" class="btn btn-secondary btn-sm">Ver Tutorial</button>
                             </div>
-                            <div class="col-12">
-                                <span ng-repeat="label in $ctrl.convertLabels(tutorial.etiquetas)" class="badge rounded-pill bg-primary d-inline">{{label}}</span>
+                            <div class="col-md-12 mt-2">
+                                <span ng-repeat="label in $ctrl.convertLabels(tutorial.etiquetas)" class="badge rounded-pill bg-info text-dark ms-1">{{label}}</span>
                             </div>
                         </div>
                     </div>

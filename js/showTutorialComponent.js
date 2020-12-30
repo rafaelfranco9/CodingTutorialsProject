@@ -1,12 +1,12 @@
 angular.module('myApp')
 .component('showTutorial',{
     templateUrl: 'vistas/showTutorial.html',
-    controller: function($http,$sce,$window,$location){
+    controller: function($http,$sce,$window,$location,$rootScope){
         ctrl = this;
 
         ctrl.$onInit = function(){
             ctrl.buscarInfoUsuario();
-            ctrl.cargarTutorial(82);
+            ctrl.cargarTutorial($rootScope.tutorialSeleccionado);
         }
 
         ctrl.cargarTutorial = function(id_tutorial){

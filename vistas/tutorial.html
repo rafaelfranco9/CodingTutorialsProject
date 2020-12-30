@@ -35,7 +35,7 @@
             <div class="mb-3 row">
                 <label for="descripcion" class="col-sm-2 col-form-label" style="color: white;">Descripcion</label>
                 <div class="col-sm-10">
-                    <textarea name="descripcion" id="descripcion" cols="30" style="resize: none;" rows="5" class="form-control rounded" ng-model="$ctrl.descripcion"></textarea>
+                    <textarea name="descripcion" id="descripcion" maxlength="400" cols="30" style="resize: none;" rows="5" class="form-control rounded" ng-model="$ctrl.descripcion"></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -92,8 +92,7 @@
                             <div class="col-md-12">
                                 <div compile ng-bind-html="$ctrl.getString(herramienta)"></div>
                             </div>
-                        </div>
-                           
+                        </div>  
                     </div>
                 </div>
 
