@@ -82,13 +82,13 @@ angular.module("myApp")
             borrarFotoAnterior();
             $http.post('api/UserData',ctrl.dataUsuario)
             .then(function(response){
+                location.reload();
                 alert('datos actualizados con exito');
             })
             .catch(function(response){
                 alert('ocurrio un problema actualizando los datos');
             });
-            location.reload();
-
+            
         }
 
         function borrarFotoAnterior(){
@@ -126,7 +126,7 @@ angular.module("myApp")
                     transformRequest:angular.identity,
                     headers: {'Content-Type':undefined,'Process-Data':false}
                 }).then(function(response){
-                    alert(response);
+                    
                 });
             }
 

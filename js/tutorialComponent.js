@@ -73,13 +73,13 @@ app.component("tutorial",{
 
                 case 'codigo':
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="codigo" ng-keydown="$ctrl.insertTab(' + cantidadObjetos + ', $event)" spellcheck="false" oninput="autosize(this)" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor"  class="rounded m-1 codeinput" ></textarea>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="codigo" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 codeinput" ></textarea>';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea elastic id="codigo" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 codeinput" ></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'code';
                     break;
 
                 case 'texto':
                     ctrl.herramientas[cantidadObjetos].html_tutorial = '<textarea elastic id="texto" spellcheck="false" oninput="autosize(this)"  ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
-                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
+                    ctrl.herramientas[cantidadObjetos].html_view = '<textarea elastic id="texto" readonly spellcheck="false" ng-model="$ctrl.herramientas[' + cantidadObjetos + '].valor" class="rounded m-1 textinput"></textarea>';
                     ctrl.herramientas[cantidadObjetos].label = 'text';
                     break;
 
@@ -283,7 +283,7 @@ app.component("tutorial",{
                     transformRequest:angular.identity,
                     headers: {'Content-Type':undefined,'Process-Data':false}
                 }).then(function(response){
-                    alert(response);
+                    
                 });
             }
             
