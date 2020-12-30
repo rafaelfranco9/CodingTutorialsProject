@@ -299,6 +299,11 @@ app.component("tutorial",{
 
         }
 
+        ctrl.borrarHerramienta = function(index){
+            ctrl.herramientas.splice(index,1);
+        }
+
+
         //Funciones helpers
         ctrl.logout = function () {
         

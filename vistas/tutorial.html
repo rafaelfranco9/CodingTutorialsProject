@@ -84,8 +84,9 @@
                 <div class="row">
                     <div class="col-md-12"  ng-repeat="herramienta in $ctrl.herramientas track by $index">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-flex justify-content-between" style="max-width: 80%;">
                                 <label class="label">{{herramienta.label}}</label>
+                                <a href ng-click="$ctrl.borrarHerramienta($index)" style="font-size: 12px; text-decoration: none;" class="m-0">eliminar</a>
                             </div>
                         </div>
                         <div class="row">
@@ -144,9 +145,7 @@
               <h5 class="modal-title" id="exampleModalLongTitle">Confirmar cambio de imagen</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- <div class="modal-body">
-                <h3></h3>    
-            </div> -->
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.cargarFotoTutorial()">Cambiar imagen</button>
