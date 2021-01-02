@@ -99,7 +99,7 @@ function getTutorial($id_tutorial){
 	}
 
 	$fila = mysqli_fetch_assoc($result);
-	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado']];
+	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado'],"visitas" => $fila['visitas']];
 	output($tutorialData);
 
 }
@@ -125,7 +125,7 @@ function postTutorial(){
 	//Conexion a la DB
 	$db = databaseConection();
 
-	$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,$imagen,$etiquetas,$herramientas,'$estado')";
+	$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,$imagen,$etiquetas,$herramientas,'$estado',DEFAULT)";
 	if($result = mysqli_query($db,$sql)){
 		
 		$sql = "INSERT INTO tutorial_usuario VALUES(DEFAULT,$user_id,$id)";
@@ -150,6 +150,7 @@ function postTutorial(){
 	}
 
 }
+
 
 
 //Actualizar tutorial
@@ -187,6 +188,61 @@ function patchTutorial(){
 	}
 
 }
+
+
+function deleteTutorial($id){
+
+
+	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
+	$id_user = $data['id'];
+	$db = databaseConection();
+
+	$result = mysqli_query($db,"DELETE FROM tutorial_usuario WHERE id_tutorial = $id");
+	if($result === false){
+		outputError(401);
+	}
+	
+	$result = mysqli_query($db,"DELETE FROM tutorial WHERE id = $id");
+	if($result === false){
+		outputError(401);
+	}
+
+	try{
+		
+		$DirectoryPath = "../usuarios/USER_".$id_user."/tutoriales/tutorial_".$id;
+		borrarArchivosDeCarpeta($DirectoryPath);
+		rmdir($DirectoryPath);
+
+	}catch(Exception $e){
+		outputError(401);
+	}
+
+	header(' ', true, 200);
+
+}
+
+
+function patchVisitas(){
+
+	$authHeader = getallheaders();
+	$dataUsuario = validateUser($authHeader);
+	$id_tutorial = json_decode(file_get_contents("php://input"), true);
+
+	//Conexion a la DB
+	$db = databaseConection();
+	$sql = "UPDATE tutorial SET visitas = visitas + 1 WHERE id = $id_tutorial";
+
+	if($result = mysqli_query($db,$sql)){
+		output("visita actualizada");
+		mysqli_close($db);
+	}else{
+		outputError(404);
+		mysqli_close($db);
+	}
+
+}
+
 
 function borrarImagenesSinUsar($folderPath,$tutorial){
 
@@ -259,109 +315,6 @@ function archivosTutorial($tutorial){
 }
 
 
-function postloadTutorial(){
-
-	$authHeader = getallheaders();
-	$data = validateUser($authHeader);
-	$tutorialData = json_decode(file_get_contents("php://input"), true);
-
-	$titulo = $tutorialData['titulo'];
-	if(isset($tutorialData['descripcion'])){
-		$descripcion = !empty($tutorialData['descripcion']) ? "'".$tutorialData['descripcion']."'" : "NULL";
-	}else{
-		$descripcion = "NULL";
-	}
-
-	$imagen = $tutorialData['imagenTutorial'];
-	if(isset($tutorialData['etiquetas'])){
-		$etiquetas = !empty($tutorialData['etiquetas']) ? "'".json_encode($tutorialData['etiquetas'])."'" : "NULL";
-	}else{
-		$etiquetas = "NULL";
-	}
-
-	$herramientas = !empty($tutorialData['herramientas']) ? "'".json_encode($tutorialData['herramientas'])."'" : "NULL";
-	$estado = $tutorialData['estado'];
-	$id = $tutorialData['id_tutorial'];
-	$user = $data['id'];
-
-	$DirectoryPath = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/USER_".$user."/tutoriales/tutorial_".$id;
-
-	$db = databaseConection();
-	
-	if($tutorialData['existe_tutorial']){
-		$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen='$imagen',etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
-		$accion = "UPDATE";
-	}else{
-		$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,'$imagen',$etiquetas,$herramientas,'$estado')";
-		$accion = "INSERT";
-	}
-
-	$result = mysqli_query($db,$sql);
-
-	if($result !== false){
-
-		$lastId = mysqli_insert_id($db);
-		
-		if($accion == "INSERT"){
-
-			$sql = "INSERT INTO tutorial_usuario VALUES(DEFAULT,$user,$lastId)";
-			$result = mysqli_query($db,$sql);
-
-			try{
-				mkdir("../usuarios/USER_".$user."/tutoriales/tutorial_".$lastId);
-			}catch(Exception $e){
-				echo 'No se pudo crear el directorio ',$e->getMessage();
-				die;
-			}
-
-		}else{
-
-			$listOfFiles = dirList($DirectoryPath);
-
-			$flag = false;
-			foreach($listOfFiles as $file){
-		
-				foreach($tutorialData['herramientas'] as $fileToLoad){
-					
-					if($fileToLoad['label'] == 'image'){
-						
-						$completePath = $fileToLoad['valor'];
-						$fileName = explode("/",$completePath);
-						$fileName =  $fileName[count($fileName)-1];
-						echo $fileName."--";
-						if($file == $fileName){
-							$flag = true;
-							break;
-						}
-
-						if($flag == false){
-				
-							if(!unlink($DirectoryPath."/".$file)){
-								outputError(500);
-							}
-				
-						}else{
-							$flag = false;
-						}
-
-					}
-				}
-		
-			}
-
-		}
-
-		mysqli_close($db);
-		output($lastId);
-
-	}else{
-		mysqli_close($db);
-		outputError(401);
-	}
-
-}
-
-
 
 function getNextTutorialId(){
 	$authHeader = getallheaders();
@@ -375,37 +328,7 @@ function getNextTutorialId(){
 	}
 }
 
-function deleteTutorial($id){
 
-
-	$authHeader = getallheaders();
-	$data = validateUser($authHeader);
-	$id_user = $data['id'];
-	$db = databaseConection();
-
-	$result = mysqli_query($db,"DELETE FROM tutorial_usuario WHERE id_tutorial = $id");
-	if($result === false){
-		outputError(401);
-	}
-	
-	$result = mysqli_query($db,"DELETE FROM tutorial WHERE id = $id");
-	if($result === false){
-		outputError(401);
-	}
-
-	try{
-		
-		$DirectoryPath = "../usuarios/USER_".$id_user."/tutoriales/tutorial_".$id;
-		borrarArchivosDeCarpeta($DirectoryPath);
-		rmdir($DirectoryPath);
-
-	}catch(Exception $e){
-		outputError(401);
-	}
-
-	header(' ', true, 200);
-
-}
 
 function borrarArchivosDeCarpeta($folderPath){
 
@@ -444,8 +367,8 @@ function postloadProfilePicture(){
 
 	$authHeader = getallheaders();
 	$data = validateUser($authHeader);
-	$user = 'USER_'.$data['id'];
-	$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/".$user."/imagenes/".$_FILES['file']['name'][0];
+	$user = $data['id'];
+	$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/USER_".$user."/imagenes/".$_FILES['file']['name'][0];
 		
 	if(!file_exists($path)){
 		if(move_uploaded_file($_FILES['file']['tmp_name'][0],$path)){
@@ -465,7 +388,7 @@ function getProfileTutorials(){
 	$tutoriales = [];
 
 	$userId = $userdata['id'];
-	$result = mysqli_query($db,"SELECT t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas from tutorial_usuario AS tu
+	$result = mysqli_query($db,"SELECT t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
 								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
 								WHERE tu.id_usuario = $userId");
 	if($result === false){
@@ -473,11 +396,12 @@ function getProfileTutorials(){
 	}
 
 	while($fila = mysqli_fetch_assoc($result)){
-		$tutoriales [] = ["id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas']];
+		$tutoriales [] = ["id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas'],"visitas" => $fila['visitas']];
 	}
 
 	output($tutoriales);
 }
+
 
 function getPublishedTutorials(){
 
@@ -486,7 +410,7 @@ function getPublishedTutorials(){
 	$db = databaseConection();
 	$tutoriales = [];
 
-	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas from tutorial_usuario AS tu
+	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
 								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
 								INNER JOIN usuario AS u ON u.id = tu.id_usuario
 								WHERE t.estado = 'publicado'");
@@ -495,13 +419,12 @@ function getPublishedTutorials(){
 	}
 
 	while($fila = mysqli_fetch_assoc($result)){
-		$tutoriales [] = ["id_usuario" => $fila['id_usuario'],"nombre" => $fila['nombre'], "apellido" => $fila['apellido'],"imagen_usuario" => $fila['imagen_usuario'],"id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas']];
+		$tutoriales [] = ["id_usuario" => $fila['id_usuario'],"nombre" => $fila['nombre'], "apellido" => $fila['apellido'],"imagen_usuario" => $fila['imagen_usuario'],"id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas'],"visitas" => $fila['visitas']];
 	}
 
 	output($tutoriales);
 	
 }
-
 
 
 function postUserData(){
@@ -608,4 +531,108 @@ function dirList($directory) {
 
 
 ?>
+
+
+
+<!-- function postloadTutorial(){
+
+$authHeader = getallheaders();
+$data = validateUser($authHeader);
+$tutorialData = json_decode(file_get_contents("php://input"), true);
+
+$titulo = $tutorialData['titulo'];
+if(isset($tutorialData['descripcion'])){
+	$descripcion = !empty($tutorialData['descripcion']) ? "'".$tutorialData['descripcion']."'" : "NULL";
+}else{
+	$descripcion = "NULL";
+}
+
+$imagen = $tutorialData['imagenTutorial'];
+if(isset($tutorialData['etiquetas'])){
+	$etiquetas = !empty($tutorialData['etiquetas']) ? "'".json_encode($tutorialData['etiquetas'])."'" : "NULL";
+}else{
+	$etiquetas = "NULL";
+}
+
+$herramientas = !empty($tutorialData['herramientas']) ? "'".json_encode($tutorialData['herramientas'])."'" : "NULL";
+$estado = $tutorialData['estado'];
+$id = $tutorialData['id_tutorial'];
+$user = $data['id'];
+
+$DirectoryPath = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/USER_".$user."/tutoriales/tutorial_".$id;
+
+$db = databaseConection();
+
+if($tutorialData['existe_tutorial']){
+	$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen='$imagen',etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
+	$accion = "UPDATE";
+}else{
+	$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,'$imagen',$etiquetas,$herramientas,'$estado',DEFAULT)";
+	$accion = "INSERT";
+}
+
+$result = mysqli_query($db,$sql);
+
+if($result !== false){
+
+	$lastId = mysqli_insert_id($db);
+	
+	if($accion == "INSERT"){
+
+		$sql = "INSERT INTO tutorial_usuario VALUES(DEFAULT,$user,$lastId)";
+		$result = mysqli_query($db,$sql);
+
+		try{
+			mkdir("../usuarios/USER_".$user."/tutoriales/tutorial_".$lastId);
+		}catch(Exception $e){
+			echo 'No se pudo crear el directorio ',$e->getMessage();
+			die;
+		}
+
+	}else{
+
+		$listOfFiles = dirList($DirectoryPath);
+
+		$flag = false;
+		foreach($listOfFiles as $file){
+	
+			foreach($tutorialData['herramientas'] as $fileToLoad){
+				
+				if($fileToLoad['label'] == 'image'){
+					
+					$completePath = $fileToLoad['valor'];
+					$fileName = explode("/",$completePath);
+					$fileName =  $fileName[count($fileName)-1];
+					echo $fileName."--";
+					if($file == $fileName){
+						$flag = true;
+						break;
+					}
+
+					if($flag == false){
+			
+						if(!unlink($DirectoryPath."/".$file)){
+							outputError(500);
+						}
+			
+					}else{
+						$flag = false;
+					}
+
+				}
+			}
+	
+		}
+
+	}
+
+	mysqli_close($db);
+	output($lastId);
+
+}else{
+	mysqli_close($db);
+	outputError(401);
+}
+
+} -->
 

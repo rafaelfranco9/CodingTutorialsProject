@@ -7,6 +7,7 @@ angular.module('myApp')
         ctrl.$onInit = function(){
             ctrl.buscarInfoUsuario();
             ctrl.cargarTutorial($rootScope.tutorialSeleccionado);
+            aumentarVisitas($rootScope.tutorialSeleccionado);
         }
 
         ctrl.cargarTutorial = function(id_tutorial){
@@ -24,7 +25,6 @@ angular.module('myApp')
                     ctrl.descripcion = ctrl.tutorialEditar.descripcion != null ? ctrl.tutorialEditar.descripcion : undefined;
                     ctrl.etiquetas = ctrl.tutorialEditar.etiquetas != null ? JSON.parse(ctrl.tutorialEditar.etiquetas) : undefined;                
                     ctrl.herramientasBaseDatos = ctrl.tutorialEditar.herramientas != null ? JSON.parse(ctrl.tutorialEditar.herramientas) : undefined;
-                    console.log( ctrl.descripcion);
 
                     //Darle el formato correcto al html guardado
                     if(ctrl.herramientasBaseDatos != undefined){
@@ -42,7 +42,6 @@ angular.module('myApp')
                         })
 
                     }
-                    console.log('se ejecuto');
                 
                 })
                 .catch(function(response){
@@ -50,6 +49,17 @@ angular.module('myApp')
                     ctrl.irUrl('home');
                 });
 
+
+        }
+
+        function aumentarVisitas(id_tutorial){
+
+            $http.patch('api/Visitas',id_tutorial)
+            .then(function(response){                    
+            })
+            .catch(function(response){
+                alert('ocurrio un error!');
+            });
 
         }
 

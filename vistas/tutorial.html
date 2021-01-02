@@ -74,7 +74,7 @@
                 <li class="list-group-item"><button ng-click="$ctrl.agregar('codigo')" class="btn" style="width: 100%;">Code</button></li>
                 <li class="list-group-item"><button ng-click="$ctrl.agregar('texto')" class="btn" style="width: 100%;">Text</button></li>
                 <li class="list-group-item"><button ng-click="$ctrl.agregar('url')" class="btn" style="width: 100%;">Url</button></li>
-                <li class="list-group-item"><button ng-click="$ctrl.agregar('image')" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn">Image</button></li>
+                <li class="list-group-item"><button ng-click="$ctrl.agregar('image')" style="width: 100%;" onclick="$('#exampleModal').modal('show');"  class="btn">Image</button></li> <!-- data-bs-toggle="modal" data-bs-target="#exampleModal" -->
             </ul>
         </div>
         <div class="col-md-10">
