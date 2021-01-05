@@ -8,6 +8,7 @@ angular.module('myApp')
             ctrl.buscarInfoUsuario();
             ctrl.cargarTutorial($rootScope.tutorialSeleccionado);
             aumentarVisitas($rootScope.tutorialSeleccionado);
+            window.scrollTo(0,0);
         }
 
         ctrl.cargarTutorial = function(id_tutorial){
