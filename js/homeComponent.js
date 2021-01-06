@@ -43,6 +43,18 @@ angular.module('myApp')
             .catch(function(response){
                 alert('no funciona');
             });
+            ctrl.clicked = undefined;
+        }
+
+        ctrl.filtrarPorCategoria = function(cat){
+            ctrl.clicked = cat;
+            $http.get('api/PublishedTutorialsFilter/' + cat)
+            .then(function(response){
+                ctrl.tutoriales = response.data;
+            })
+            .catch(function(response){
+                alert('no funciona');
+            });
 
         }
 

@@ -1,0 +1,14 @@
+.btnSelected{
+    background-color: rgb(0, 162, 196); 
+    color: white;
+  
+}
+.btnSelected:focus{
+    outline: none !important;
+    box-shadow: none;
+}
+
+.btnNoSelected{
+    background-color: transparent;
+    color: black;
+}

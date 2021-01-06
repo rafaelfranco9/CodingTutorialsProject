@@ -24,14 +24,14 @@
                 <input class="form-control  rounded" type="search" placeholder="palabra clave, categoria, etc" name="searchTutorial" id="searchTutorial">
             </div>
             <button class="btn btn-light col-md-1" type="submit">Buscar</button>
-            <button class="btn btn-light col-md-1 mx-1" type="submit">Desfiltrar</button>
+            <button ng-click="$ctrl.buscarTutoriales()" class="btn btn-light col-md-1 mx-1" type="submit">Desfiltrar</button>
         </div>
     </form>
     
     <div class="row mt-4">
         <div class="col-md-2"> <!--estaba en 3-->
            <ul class="list-group">
-               <li ng-repeat="cat in $ctrl.categorias" class="list-group-item"><button class="btn" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat}}</button></li>
+               <li ng-repeat="cat in $ctrl.categorias" class="list-group-item"><button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat,btnNoSelected:$ctrl.clicked != cat}"  ng-click="$ctrl.filtrarPorCategoria(cat)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat}}</button></li>
            </ul>
         </div>
         <div class="col-md-9">
