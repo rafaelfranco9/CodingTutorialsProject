@@ -23,17 +23,15 @@
             <div class="col-md-6">
                 <input class="form-control  rounded" type="search" placeholder="palabra clave, categoria, etc" name="searchTutorial" id="searchTutorial">
             </div>
-            <button class="btn btn-light col-md-2" type="submit">Buscar</button>
+            <button class="btn btn-light col-md-1" type="submit">Buscar</button>
+            <button class="btn btn-light col-md-1 mx-1" type="submit">Desfiltrar</button>
         </div>
     </form>
     
     <div class="row mt-4">
-        <div class="col-md-3">
+        <div class="col-md-2"> <!--estaba en 3-->
            <ul class="list-group">
-               <li class="list-group-item">Desarrollo Web</li>
-               <li class="list-group-item">Bootstrap</li>
-               <li class="list-group-item">Python Scraping</li>
-               <li class="list-group-item">C++</li>
+               <li ng-repeat="cat in $ctrl.categorias" class="list-group-item"><button class="btn" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat}}</button></li>
            </ul>
         </div>
         <div class="col-md-9">

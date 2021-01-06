@@ -6,7 +6,8 @@ angular.module('myApp')
         
 		ctrl.datosUsuario = $auth.getPayload();
 		ctrl.$onInit = function(){
-			ctrl.buscarTutoriales();
+            ctrl.buscarTutoriales();
+            cargarCategorias();
 		}
 
 
@@ -20,6 +21,16 @@ angular.module('myApp')
 
 		ctrl.irUrl = function($path){
             $location.url('/' + $path);
+        }
+
+        function cargarCategorias(){
+            $http.get('api/Categorias')
+            .then(function(response){
+                ctrl.categorias = response.data;
+            })
+            .catch(function(response){
+                alert('error cargando categorias');
+            });
         }
 
 
