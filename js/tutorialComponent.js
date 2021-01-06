@@ -26,6 +26,7 @@ app.component("tutorial",{
             ctrl.datosUsuario = $auth.getPayload();
             ctrl.imagenURL = undefined;
             ctrl.imagenGuardada = true;
+            cargarCategorias();
 
             if($rootScope.info.editando == true){
                 ctrl.cargarTutorial($rootScope.info.id_tutorial);
@@ -120,6 +121,7 @@ app.component("tutorial",{
                     ctrl.id_tutorial = ctrl.tutorialEditar.id;
                     ctrl.titulo = ctrl.tutorialEditar.titulo;
                     ctrl.imagen = ctrl.tutorialEditar.imagen;
+                    ctrl.categoria = ctrl.tutorialEditar.categoria != null ? ctrl.tutorialEditar.categoria : undefined;
                     ctrl.descripcion = ctrl.tutorialEditar.descripcion != null ? ctrl.tutorialEditar.descripcion : undefined;
                     ctrl.etiquetas = ctrl.tutorialEditar.etiquetas != null ? JSON.parse(ctrl.tutorialEditar.etiquetas) : undefined;                
                     ctrl.herramientasBaseDatos = ctrl.tutorialEditar.herramientas != null ? JSON.parse(ctrl.tutorialEditar.herramientas) : undefined;
@@ -186,6 +188,7 @@ app.component("tutorial",{
                 'descripcion': ctrl.descripcion,
                 'imagenTutorial':ctrl.imagen,
                 'etiquetas': ctrl.etiquetas,
+                'categoria': ctrl.categoria,
                 'herramientas':ctrl.herramientasBaseDatos,
                 'estado': opcion == 1? 'guardado' : 'publicado',
                 'id_tutorial': ctrl.id_tutorial,
@@ -230,6 +233,17 @@ app.component("tutorial",{
                     alert('no se actualizo el tutorial con exito');
                 });
 
+        }
+
+        function cargarCategorias(){
+            $http.get('api/Categorias')
+            .then(function(response){
+                ctrl.categorias = response.data;
+                ctrl.categoria = ctrl.categorias[0];
+            })
+            .catch(function(response){
+                alert('error cargando categorias');
+            });
         }
 
 

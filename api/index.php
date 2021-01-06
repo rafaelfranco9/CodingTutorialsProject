@@ -99,7 +99,7 @@ function getTutorial($id_tutorial){
 	}
 
 	$fila = mysqli_fetch_assoc($result);
-	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado'],"visitas" => $fila['visitas']];
+	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"categoria" => $fila['categoria'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado'],"visitas" => $fila['visitas']];
 	output($tutorialData);
 
 }
@@ -117,6 +117,7 @@ function postTutorial(){
 	$titulo = $dataTutorial['titulo'];
 	$descripcion = isset($dataTutorial['descripcion']) ? "'".$dataTutorial['descripcion']."'" : "NULL";
 	$imagen =  isset($dataTutorial['imagenTutorial']) ? "'".$dataTutorial['imagenTutorial']."'" : "NULL";
+	$categoria =  isset($dataTutorial['categoria']) ? "'".$dataTutorial['categoria']."'" : "NULL";
 	$etiquetas = isset($dataTutorial['etiquetas']) ? "'".json_encode($dataTutorial['etiquetas'])."'" : "NULL";
 	$herramientas = isset($dataTutorial['herramientas']) ? "'".json_encode($dataTutorial['herramientas'])."'" : "NULL";
 	$estado = $dataTutorial['estado'];
@@ -125,7 +126,7 @@ function postTutorial(){
 	//Conexion a la DB
 	$db = databaseConection();
 
-	$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,$imagen,$etiquetas,$herramientas,'$estado',DEFAULT)";
+	$sql = "INSERT INTO tutorial VALUES(DEFAULT,'$titulo',$descripcion,$imagen,$categoria,$etiquetas,$herramientas,'$estado',DEFAULT)";
 	if($result = mysqli_query($db,$sql)){
 		
 		$sql = "INSERT INTO tutorial_usuario VALUES(DEFAULT,$user_id,$id)";
@@ -156,6 +157,7 @@ function postTutorial(){
 //Actualizar tutorial
 function patchTutorial(){
 
+
 	//validaciones y llegada de informacion
 	$authHeader = getallheaders();
 	$dataUsuario = validateUser($authHeader);
@@ -166,6 +168,7 @@ function patchTutorial(){
 	$titulo = $dataTutorial['titulo'];
 	$descripcion = isset($dataTutorial['descripcion']) ? "'".$dataTutorial['descripcion']."'" : "NULL";
 	$imagen =  isset($dataTutorial['imagenTutorial']) ? "'".$dataTutorial['imagenTutorial']."'" : "NULL";
+	$categoria =  isset($dataTutorial['categoria']) ? "'".$dataTutorial['categoria']."'" : "NULL";
 	$etiquetas = isset($dataTutorial['etiquetas']) ? "'".json_encode($dataTutorial['etiquetas'])."'" : "NULL";
 	$herramientas = isset($dataTutorial['herramientas']) ? "'".json_encode($dataTutorial['herramientas'])."'" : "NULL";
 	$estado = $dataTutorial['estado'];
@@ -174,8 +177,7 @@ function patchTutorial(){
 	//Conexion a la DB
 	$db = databaseConection();
 
-	$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen=$imagen,etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
-	echo $sql;
+	$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen=$imagen,categoria=$categoria,etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
 	if($result = mysqli_query($db,$sql)){
 
 		$folderPath = $_SERVER['DOCUMENT_ROOT']."CodingTutorials/usuarios/USER_".$user_id."/tutoriales/tutorial_".$id;
@@ -219,6 +221,30 @@ function deleteTutorial($id){
 	}
 
 	header(' ', true, 200);
+
+}
+
+function getCategorias(){
+
+	$authHeader = getallheaders();
+	$dataUsuario = validateUser($authHeader);
+
+	//Conexion a la DB
+	$db = databaseConection();
+	$sql = "SELECT nombre FROM categoria";
+	$categorias = [];
+
+	if($result = mysqli_query($db,$sql)){
+
+		while($fila = mysqli_fetch_assoc($result)){
+			$categorias [] = $fila['nombre'];
+		}
+		output($categorias);
+		mysqli_close($db);
+	}else{
+		outputError(404);
+		mysqli_close($db);
+	}
 
 }
 
@@ -315,7 +341,6 @@ function archivosTutorial($tutorial){
 }
 
 
-
 function getNextTutorialId(){
 	$authHeader = getallheaders();
 	$data = validateUser($authHeader);
@@ -410,7 +435,7 @@ function getPublishedTutorials(){
 	$db = databaseConection();
 	$tutoriales = [];
 
-	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
+	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.categoria,t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
 								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
 								INNER JOIN usuario AS u ON u.id = tu.id_usuario
 								WHERE t.estado = 'publicado'");
@@ -419,7 +444,7 @@ function getPublishedTutorials(){
 	}
 
 	while($fila = mysqli_fetch_assoc($result)){
-		$tutoriales [] = ["id_usuario" => $fila['id_usuario'],"nombre" => $fila['nombre'], "apellido" => $fila['apellido'],"imagen_usuario" => $fila['imagen_usuario'],"id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas'],"visitas" => $fila['visitas']];
+		$tutoriales [] = ["id_usuario" => $fila['id_usuario'],"nombre" => $fila['nombre'], "apellido" => $fila['apellido'],"imagen_usuario" => $fila['imagen_usuario'],"id"=>$fila["id"],"titulo" => $fila["titulo"],"descripcion" => $fila["descripcion"], "imagen" => $fila["imagen"],"categoria"=>$fila['categoria'],"estado" => $fila["estado"],"etiquetas" => $fila['etiquetas'],"visitas" => $fila['visitas']];
 	}
 
 	output($tutoriales);
