@@ -85,7 +85,7 @@ angular.module('myApp')
             $location.url('/' + $path);
         }
         ctrl.openLink = function(link){
-            $window.open('http://' + link, '_blank');
+            $window.open(link, '_blank');
         }
 
 
