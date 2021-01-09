@@ -8,6 +8,7 @@ angular.module('myApp')
 		ctrl.$onInit = function(){
             ctrl.buscarTutoriales();
             cargarCategorias();
+            ctrl.inputSearch = '';
 		}
 
 
@@ -44,6 +45,7 @@ angular.module('myApp')
                 alert('no funciona');
             });
             ctrl.clicked = undefined;
+            ctrl.inputSearch = '';
         }
 
         ctrl.filtrarPorCategoria = function(cat){
@@ -56,6 +58,19 @@ angular.module('myApp')
                 alert('no funciona');
             });
 
+        }
+
+        ctrl.buscar = function(){
+
+            if(ctrl.inputSearch != ''){
+                $http.get('api/PublishedTutorialsSearch/' + ctrl.inputSearch)
+                .then(function(response){
+                    ctrl.tutoriales = response.data;
+                })
+                .catch(function(response){
+                    alert('no funciona');
+                });
+            }
         }
 
         ctrl.abrirTutorial = function(id){
