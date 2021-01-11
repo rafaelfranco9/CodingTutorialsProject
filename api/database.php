@@ -12,9 +12,6 @@ function databaseConection(){
     return $conection;
 }
 
-function outputError($headerStatus){
-	header('Error', true, $headerStatus);
-	die;
-}
+
 
 ?>
