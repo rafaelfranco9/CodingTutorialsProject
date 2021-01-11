@@ -38,14 +38,17 @@ angular.module('myApp')
         }
 
         ctrl.borrarCategoria = function(id){
-            $http.delete('api/Categorias/' + id)
-            .then(function(response){
-                alert('se borro la categoria satisfactoriamente!');
-                location.reload();
-            })
-            .catch(function(response){
-                alert('error eliminando categoria');
-            });
+
+            if(confirm("Esta seguro que quiere borrar la categoria?")){
+                $http.delete('api/Categorias/' + id)
+                .then(function(response){
+                    alert('se borro la categoria satisfactoriamente!');
+                    location.reload();
+                })
+                .catch(function(response){
+                    alert('error eliminando categoria');
+                });
+            }
         }
 
         ctrl.agregarCategoria = function(){

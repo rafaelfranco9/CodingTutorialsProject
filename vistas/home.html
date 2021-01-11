@@ -48,7 +48,7 @@
         <div class="col-md-2"> <!--estaba en 3-->
            <ul class="list-group">
                <li ng-repeat="cat in $ctrl.categorias" class="list-group-item">
-                   <button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat,btnNoSelected:$ctrl.clicked != cat}"  ng-click="$ctrl.filtrarPorCategoria(cat)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat.nombre}}</button>
+                   <button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat.nombre,btnNoSelected:$ctrl.clicked != cat.nombre}"  ng-click="$ctrl.filtrarPorCategoria(cat.nombre)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat.nombre}}</button>
                    <!--Administrador-->
                    <a ng-show="$ctrl.admin"  href ng-click="$ctrl.borrarCategoria(cat.id)" style="font-size: 12px; text-decoration: none;" class="m-0 d-flex justify-content-center">eliminar</a> 
                </li>

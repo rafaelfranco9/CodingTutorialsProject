@@ -89,7 +89,7 @@ function postSignUp(){
 
 	if(mysqli_affected_rows($db) == 0){
 
-		$result = mysqli_query($db,"INSERT INTO usuario VALUES(DEFAULT,'$nombre','$apellido','$email','$password',DEFAULT,NULL)");
+		$result = mysqli_query($db,"INSERT INTO usuario VALUES(DEFAULT,'$nombre','$apellido','$email','$password',DEFAULT,NULL,DEFAULT)");
 		$userId = mysqli_insert_id($db);
 		
 		try{
