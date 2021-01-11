@@ -5,13 +5,21 @@ angular.module('myApp')
         ctrl = this;
 
         ctrl.$onInit = function(){
-            ctrl.buscarInfoUsuario();
+            ctrl.dataUsuario = {};
             ctrl.cargarTutorial($rootScope.tutorialSeleccionado);
             aumentarVisitas($rootScope.tutorialSeleccionado);
             window.scrollTo(0,0);
         }
 
         ctrl.cargarTutorial = function(id_tutorial){
+
+            $http.get('api/TutorialUser/' + id_tutorial)
+            .then(function(response){
+                ctrl.dataUsuario = response.data[0];
+            })
+            .catch(function(response){
+               
+            });
 
             $http.get('api/Tutorial/' + id_tutorial)
                 
@@ -60,19 +68,6 @@ angular.module('myApp')
             })
             .catch(function(response){
                 alert('ocurrio un error!');
-            });
-
-        }
-
-        ctrl.buscarInfoUsuario = function(){
-
-            $http.get('api/ProfileInfo')
-            .then(function(response){
-                ctrl.dataUsuario = response.data;
-            })
-            .catch(function(response){
-                alert('No se pudo cargar correctamente el tutorial');
-                ctrl.irUrl('home');
             });
 
         }

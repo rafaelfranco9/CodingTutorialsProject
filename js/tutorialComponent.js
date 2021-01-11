@@ -26,6 +26,7 @@ app.component("tutorial",{
             ctrl.datosUsuario = $auth.getPayload();
             ctrl.imagenURL = undefined;
             ctrl.imagenGuardada = true;
+            ctrl.categoria = {};
             cargarCategorias();
 
             if($rootScope.info.editando == true){
@@ -121,7 +122,7 @@ app.component("tutorial",{
                     ctrl.id_tutorial = ctrl.tutorialEditar.id;
                     ctrl.titulo = ctrl.tutorialEditar.titulo;
                     ctrl.imagen = ctrl.tutorialEditar.imagen;
-                    ctrl.categoria = ctrl.tutorialEditar.categoria != null ? ctrl.tutorialEditar.categoria : undefined;
+                    ctrl.categoria.nombre = ctrl.tutorialEditar.categoria != null ? ctrl.tutorialEditar.categoria : undefined;
                     ctrl.descripcion = ctrl.tutorialEditar.descripcion != null ? ctrl.tutorialEditar.descripcion : undefined;
                     ctrl.etiquetas = ctrl.tutorialEditar.etiquetas != null ? JSON.parse(ctrl.tutorialEditar.etiquetas) : undefined;                
                     ctrl.herramientasBaseDatos = ctrl.tutorialEditar.herramientas != null ? JSON.parse(ctrl.tutorialEditar.herramientas) : undefined;
@@ -149,7 +150,6 @@ app.component("tutorial",{
                     alert('No se pudo cargar correctamente el tutorial');
                     ctrl.irUrl('profile',2);
                 });
-
 
         }
 
@@ -190,7 +190,7 @@ app.component("tutorial",{
                 'descripcion': ctrl.descripcion,
                 'imagenTutorial':ctrl.imagen,
                 'etiquetas': ctrl.etiquetas,
-                'categoria': ctrl.categoria,
+                'categoria': ctrl.categoria.nombre,
                 'herramientas':ctrl.herramientasBaseDatos,
                 'estado': opcion == 1? 'guardado' : 'publicado',
                 'id_tutorial': ctrl.id_tutorial,

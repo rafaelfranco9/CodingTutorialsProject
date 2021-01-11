@@ -47,7 +47,7 @@
             <div class="mb-3 row">
                 <label for="categoria" class="col-sm-2 col-form-label" style="color: white;">Categoria</label>
                 <div class="col-sm-10">
-                    <select ng-options="item for item in $ctrl.categorias track by item" ng-model="$ctrl.categoria" class="form-control rounded selectpicker" style="text-transform: capitalize;"></select>
+                    <select ng-options="item.nombre for item in $ctrl.categorias track by item.nombre" ng-model="$ctrl.categoria" class="form-control rounded selectpicker" style="text-transform: capitalize;"></select>
                 </div>
             </div>
             <div class="mb-3 row">

@@ -616,6 +616,26 @@ function deleteLastProfilePic(){
 
 }
 
+function getTutorialUser($tutorial_id){
+
+	$authHeader = getallheaders();
+	$userdata = validateUser($authHeader);
+	$db = databaseConection();
+	$sql = "SELECT u.nombre,u.apellido,u.imagen FROM tutorial_usuario as tu
+	INNER JOIN usuario AS u ON u.id = tu.id_usuario
+	WHERE tu.id_tutorial = $tutorial_id";
+	$tutorialUser = [];
+
+	if($result = mysqli_query($db,$sql)){
+		while($fila = mysqli_fetch_assoc($result)){
+			$tutorialUser [] = ["nombre" => $fila['nombre'],"apellido" => $fila['apellido'],"imagen" => $fila['imagen']];
+		}
+		output($tutorialUser);
+	}else{
+		outputError(401);
+	}
+}
+
 function validateUser($authHeader){
 
 	if (isset($authHeader['Authorization'])) {
