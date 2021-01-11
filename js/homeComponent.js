@@ -6,9 +6,12 @@ angular.module('myApp')
         
 		ctrl.datosUsuario = $auth.getPayload();
 		ctrl.$onInit = function(){
+            ctrl.inputSearch = '';
+            ctrl.nuevaCategoria = '';
+            ctrl.admin = false;
             ctrl.buscarTutoriales();
             cargarCategorias();
-            ctrl.inputSearch = '';
+            isAdmin();
 		}
 
 
@@ -34,6 +37,55 @@ angular.module('myApp')
             });
         }
 
+        ctrl.borrarCategoria = function(id){
+            $http.delete('api/Categorias/' + id)
+            .then(function(response){
+                alert('se borro la categoria satisfactoriamente!');
+                location.reload();
+            })
+            .catch(function(response){
+                alert('error eliminando categoria');
+            });
+        }
+
+        ctrl.agregarCategoria = function(){
+            console.log(ctrl.nuevaCategoria);
+            $http.post('api/Categorias',{"categoria":ctrl.nuevaCategoria})
+            .then(function(response){
+                alert('se agrego satisfactoriamente la categoria!');
+                ctrl.nuevaCategoria = '';
+                location.reload();
+            })
+            .catch(function(response){
+                alert('error eliminando categoria');
+            });
+        }
+
+        ctrl.borrarTutorial = function(id){
+            if(confirm("Esta seguro que quiere borrar el tutorial?")){
+                $http.delete('api/Tutorial/' + id)
+                .then(function(response){
+                    alert('Se borro satisfactoriamente!');
+                    location.reload();
+                })
+                .catch(function(response){
+                    alert('NO se borro satisfactoriamente!');
+                });
+
+            }
+        }
+
+        function isAdmin(){
+
+            $http.get('api/IsAdmin/' + ctrl.datosUsuario.id)
+            .then(function(response){
+                ctrl.admin = response.data;
+            })
+            .catch(function(response){
+                
+            }); 
+
+        }
 
         ctrl.buscarTutoriales = function(){
 

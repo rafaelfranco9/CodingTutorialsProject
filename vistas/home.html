@@ -17,11 +17,27 @@
     </div>
 </nav>
 <div class="container">
+    <!--Para administrados-->
+    <div ng-show="$ctrl.admin" class="row pt-4">
+        <div class="col-md-12">
+            <p class="display-6 text-white">Administrador</p>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+            <label for="categoria" class="form-label text-white m-0 align-self-center">Agregar Categoria</label>
+        </div>
+        <div class="col-md-5">
+            <input type="text" style="text-transform: capitalize;" ng-model="$ctrl.nuevaCategoria" class="form-control">
+        </div>
+        <div class="col-md-2 p-0">
+            <button class="btn btn-light" ng-click="$ctrl.agregarCategoria()">Agregar</button>
+        </div>
+    </div>
+
     <form class="form mt-4">
         <div class="form-group row">
             <label class="text-white col-md-2 col-form-label text-center m-0" for="searchTutorial">Buscar Tutorial</label>
             <div class="col-md-6">
-                <input class="form-control rounded" ng-model="$ctrl.inputSearch" type="search" placeholder="palabra clave, categoria, etc" name="searchTutorial" id="searchTutorial">
+                <input class="form-control rounded" ng-model="$ctrl.inputSearch" type="search" placeholder="palabra clave, categoria, usuario, etc" name="searchTutorial" id="searchTutorial">
             </div>
             <button ng-click="$ctrl.buscar()" class="btn btn-light col-md-1" type="submit">Buscar</button>
             <button ng-click="$ctrl.buscarTutoriales()" class="btn btn-light col-md-1 ms-1 p-1" type="submit">Desfiltrar</button>
@@ -31,7 +47,11 @@
     <div class="row mt-4">
         <div class="col-md-2"> <!--estaba en 3-->
            <ul class="list-group">
-               <li ng-repeat="cat in $ctrl.categorias" class="list-group-item"><button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat,btnNoSelected:$ctrl.clicked != cat}"  ng-click="$ctrl.filtrarPorCategoria(cat)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat}}</button></li>
+               <li ng-repeat="cat in $ctrl.categorias" class="list-group-item">
+                   <button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat,btnNoSelected:$ctrl.clicked != cat}"  ng-click="$ctrl.filtrarPorCategoria(cat)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat.nombre}}</button>
+                   <!--Administrador-->
+                   <a ng-show="$ctrl.admin"  href ng-click="$ctrl.borrarCategoria(cat.id)" style="font-size: 12px; text-decoration: none;" class="m-0 d-flex justify-content-center">eliminar</a> 
+               </li>
            </ul>
         </div>
         <div class="col-md-9">
@@ -45,9 +65,8 @@
                             <div class="col-md-10 d-flex justify-content-start ps-0">                                
                                     <p class="align-self-center m-0" style="font-size: medium; text-transform: capitalize;">{{tutorial.nombre}} {{tutorial.apellido}}</p>
                             </div>
-                            <!-- <div class="col-md-3 d-flex justify-content-center align-items-center">
-                                
-                            </div> -->
+                            <!--Administrador-->
+                            <a ng-show="$ctrl.admin" href ng-click="$ctrl.borrarTutorial(tutorial.id)" style="font-size: 15px; text-decoration: none;" class="m-0 d-flex justify-content-end">eliminar</a> 
                         </div>
                         <div class="card-body">
                             <div class="row align-items-center">
