@@ -79,7 +79,7 @@ function postloadImages($id_tutorial){
 
 	for($i=0;$i<$count;$i++){
 
-		$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/USER_".$user."/tutoriales/tutorial_".$id_tutorial."/".$_FILES['file']['name'][$i];
+		$path = $_SERVER['DOCUMENT_ROOT']. "/CodingTutorials/usuarios/USER_".$user."/tutoriales/tutorial_".$id_tutorial."/".$_FILES['file']['name'][$i];
 		
 		if(!file_exists($path)){
 			if(move_uploaded_file($_FILES['file']['tmp_name'][$i],$path)){

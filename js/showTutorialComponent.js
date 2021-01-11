@@ -44,6 +44,7 @@ angular.module('myApp')
 
                             if(value.valor != undefined){
                                 value.valor = value.valor.replace(/@/g,'"');
+                                value.valor = value.valor.replace(/<CS>/g,"'");
                                 value.valor = value.valor.replace(/<br>/g, '\n');
                             }
 
