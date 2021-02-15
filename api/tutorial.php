@@ -6,14 +6,18 @@ function getTutorial($id_tutorial){
 	$authHeader = getallheaders();
 	$data = validateUser($authHeader);
 	$db = databaseConection();
-
-	$result = mysqli_query($db,"SELECT * FROM tutorial WHERE id = $id_tutorial");
+	$sql = "SELECT t.id,t.titulo,t.descripcion,t.imagen,t.categoria AS 'id_categoria',t.etiquetas,t.herramientas,t.estado,t.visitas,c.nombre AS 'categoria'";
+	$sql .= " FROM tutorial as t";
+	$sql .= " INNER JOIN categoria AS c ON c.id = t.categoria";
+	$sql .= " WHERE t.id = $id_tutorial"; 
+	
+	$result = mysqli_query($db,$sql);
 	if($result === false){
 		outputError(401);
 	}
 
 	$fila = mysqli_fetch_assoc($result);
-	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"categoria" => $fila['categoria'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado'],"visitas" => $fila['visitas']];
+	$tutorialData = ["id" => $fila['id'],"titulo" => $fila['titulo'],"descripcion" => $fila['descripcion'],"imagen" => $fila['imagen'],"categoria" => $fila['categoria'],"id_categoria" => $fila['id_categoria'],"etiquetas" => $fila['etiquetas'],"herramientas" => $fila['herramientas'],"estado" => $fila['estado'],"visitas" => $fila['visitas']];
 	output($tutorialData);
 
 }

@@ -9,6 +9,8 @@ angular.module('myApp')
             ctrl.inputSearch = '';
             ctrl.nuevaCategoria = '';
             ctrl.admin = false;
+            ctrl.categoriaFiltrada = {};
+            ctrl.reemplazoCategorias = {}
             ctrl.buscarTutoriales();
             cargarCategorias();
             isAdmin();
@@ -30,7 +32,7 @@ angular.module('myApp')
         function cargarCategorias(){
             $http.get('api/Categorias')
             .then(function(response){
-                ctrl.categorias = response.data;
+                ctrl.categorias = response.data; 
             })
             .catch(function(response){
                 alert('error cargando categorias');
@@ -38,21 +40,40 @@ angular.module('myApp')
         }
 
         ctrl.borrarCategoria = function(id){
+         
 
-            if(confirm("Esta seguro que quiere borrar la categoria?")){
-                $http.delete('api/Categorias/' + id)
-                .then(function(response){
-                    alert('se borro la categoria satisfactoriamente!');
-                    location.reload();
-                })
-                .catch(function(response){
-                    alert('error eliminando categoria');
-                });
-            }
+            $http.get('api/TutorialesConCategoria/' + id)
+            .then(function(response){
+               
+                if(response.data > 0){
+                    ctrl.categoriaFiltrada = ctrl.categorias.filter(ob => ob.id != id);
+                    ctrl.reemplazoCategorias.idNuevo = ctrl.categoriaFiltrada[0];
+                    $('#exampleModalCenter').modal('show');
+                    ctrl.reemplazoCategorias.idViejo = id;
+
+               }else{
+
+                    if(confirm("Esta seguro que quiere borrar la categoria?")){
+                        $http.delete('api/Categorias/' + id)
+                        .then(function(response){
+                            alert('se borro la categoria satisfactoriamente!');
+                            location.reload();
+                        })
+                        .catch(function(response){
+                            alert('error eliminando categoria');
+                        });
+                    }
+
+               }
+            })
+            .catch(function(response){
+                alert('error eliminando la categoria');            
+            });
+
         }
 
         ctrl.agregarCategoria = function(){
-            console.log(ctrl.nuevaCategoria);
+            
             $http.post('api/Categorias',{"categoria":ctrl.nuevaCategoria})
             .then(function(response){
                 alert('se agrego satisfactoriamente la categoria!');
@@ -62,6 +83,20 @@ angular.module('myApp')
             .catch(function(response){
                 alert('error eliminando categoria');
             });
+        }
+
+        ctrl.actualizarCategoriaTutoriales = function(){
+            ctrl.reemplazoCategorias.idNuevo = ctrl.reemplazoCategorias.idNuevo.id;
+
+            $http.patch('api/ReemplazoCategoria',ctrl.reemplazoCategorias)
+            .then(function(response){
+                alert('Categorias reemplazadas, ahora si puede borrar la categoria que deseaba');
+                location.reload();
+            })
+            .catch(function(response){
+                alert('error reemplazando la categoria');
+            });
+
         }
 
         ctrl.borrarTutorial = function(id){

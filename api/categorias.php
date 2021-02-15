@@ -59,4 +59,40 @@ function postCategorias(){
 
 }
 
+function getTutorialesConCategoria($id){
+	
+	$authHeader = getallheaders();
+	$dataUsuario = validateUser($authHeader);
+	$db = databaseConection();
+	$sql = "SELECT COUNT(*) as 'count' FROM tutorial WHERE categoria = $id";
+	
+	if($result = mysqli_query($db,$sql)){
+		$data = mysqli_fetch_assoc($result);
+		output($data['count']);
+		header(' ', true, 200);
+	}else{
+		outputError(404);
+	}
+
+}
+
+function patchReemplazoCategoria(){
+	
+	$data = json_decode(file_get_contents("php://input"), true);
+	$authHeader = getallheaders();
+	$dataUsuario = validateUser($authHeader);
+	$db = databaseConection();
+	$idViejo = $data['idViejo'];
+	$idNuevo = $data['idNuevo'];
+	$sql = "UPDATE tutorial SET categoria = $idNuevo WHERE categoria = $idViejo";
+	
+	if($result = mysqli_query($db,$sql)){
+		header(' ', true, 200);
+	}else{
+		outputError(404);
+	}
+	
+}
+
+
 ?>

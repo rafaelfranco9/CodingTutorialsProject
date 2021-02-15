@@ -125,5 +125,31 @@
         </div>
     </div>
 
+
+      <!-- Modal para la foto principal del tutorial -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Cambio de categoria</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Existen tutoriales con la categoria que desea borrar, para ejecutar esta accion debe elegir una nueva categoria para reemplazarlas</p>
+                <br>
+                <label>Categorias: </label>
+                <select ng-options="item.nombre for item in $ctrl.categoriaFiltrada track by item.id" ng-model="$ctrl.reemplazoCategorias.idNuevo" class="form-control rounded selectpicker" style="text-transform: capitalize;"></select>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.actualizarCategoriaTutoriales()">Cambiar imagen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 </div>
 

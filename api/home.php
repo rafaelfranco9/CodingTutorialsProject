@@ -7,9 +7,10 @@ function getPublishedTutorials(){
 	$db = databaseConection();
 	$tutoriales = [];
 
-	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,t.categoria,t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
+	$result = mysqli_query($db,"SELECT u.id as 'id_usuario',u.nombre,u.apellido,u.imagen as 'imagen_usuario',t.id,t.titulo,t.descripcion,t.imagen,c.nombre as 'categoria',t.estado,t.etiquetas,t.visitas from tutorial_usuario AS tu
 								INNER JOIN tutorial AS t ON t.id = tu.id_tutorial
 								INNER JOIN usuario AS u ON u.id = tu.id_usuario
+								INNER JOIN categoria AS c ON c.id = t.categoria
 								WHERE t.estado = 'publicado'");
 	if($result === false){
 		outputError(500);

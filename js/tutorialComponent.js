@@ -122,7 +122,7 @@ app.component("tutorial",{
                     ctrl.id_tutorial = ctrl.tutorialEditar.id;
                     ctrl.titulo = ctrl.tutorialEditar.titulo;
                     ctrl.imagen = ctrl.tutorialEditar.imagen;
-                    ctrl.categoria.nombre = ctrl.tutorialEditar.categoria != null ? ctrl.tutorialEditar.categoria : undefined;
+                    ctrl.categoria = {id:ctrl.tutorialEditar.id_categoria,nombre:ctrl.tutorialEditar.categoria};
                     ctrl.descripcion = ctrl.tutorialEditar.descripcion != null ? ctrl.tutorialEditar.descripcion : undefined;
                     ctrl.etiquetas = ctrl.tutorialEditar.etiquetas != null ? JSON.parse(ctrl.tutorialEditar.etiquetas) : undefined;                
                     ctrl.herramientasBaseDatos = ctrl.tutorialEditar.herramientas != null ? JSON.parse(ctrl.tutorialEditar.herramientas) : undefined;
@@ -190,7 +190,7 @@ app.component("tutorial",{
                 'descripcion': ctrl.descripcion,
                 'imagenTutorial':ctrl.imagen,
                 'etiquetas': ctrl.etiquetas,
-                'categoria': ctrl.categoria.nombre,
+                'categoria': ctrl.categoria.id,
                 'herramientas':ctrl.herramientasBaseDatos,
                 'estado': opcion == 1? 'guardado' : 'publicado',
                 'id_tutorial': ctrl.id_tutorial,
@@ -344,9 +344,7 @@ app.component("tutorial",{
         
             }else{
 
-                sleep(1000);
                 $location.url('/' + $path);
-        
             }
         }
 
@@ -366,7 +364,7 @@ app.component("tutorial",{
                 var end = e.target.selectionEnd;
                 ctrl.herramientas[index].valor = ctrl.herramientas[index].valor.substring(0, start) + '  ' + ctrl.herramientas[index].valor.substring(end);
                 e.target.selectionStart = e.target.selectionEnd = start + 1;
-              }
+            }
         }
 
         function sleep(delay) {
