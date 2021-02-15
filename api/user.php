@@ -81,7 +81,7 @@ function postloadProfilePicture(){
 	$authHeader = getallheaders();
 	$data = validateUser($authHeader);
 	$user = $data['id'];
-	$path = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/usuarios/USER_".$user."/imagenes/".$_FILES['file']['name'][0];
+	$path = $_SERVER['DOCUMENT_ROOT']. "/CodingTutorials/usuarios/USER_".$user."/imagenes/".$_FILES['file']['name'][0];
 		
 	if(!file_exists($path)){
 		if(move_uploaded_file($_FILES['file']['tmp_name'][0],$path)){
