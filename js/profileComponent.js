@@ -12,7 +12,6 @@ angular.module("myApp")
             $rootScope.info = {"editando": false, "id_tutorial": 0};
         }
 
-
         ctrl.buscarTutoriales = function(){
 
             $http.get('api/ProfileTutorials')
