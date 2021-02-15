@@ -294,6 +294,7 @@ app.component("tutorial",{
             }
 
             if(form_data.getAll('file[]').length > 0){
+                
                 $http.post('api/loadImages/' + ctrl.id_tutorial,form_data,
                 {
                     transformRequest:angular.identity,
@@ -337,12 +338,13 @@ app.component("tutorial",{
             
             if($opcion==1){
 
-                if(confirm("Desea salir del editor?")){
+                if(confirm("Desea salir del editor?")){   
                     $location.url('/' + $path);
                 }
         
             }else{
-        
+
+                sleep(1000);
                 $location.url('/' + $path);
         
             }
@@ -365,6 +367,11 @@ app.component("tutorial",{
                 ctrl.herramientas[index].valor = ctrl.herramientas[index].valor.substring(0, start) + '  ' + ctrl.herramientas[index].valor.substring(end);
                 e.target.selectionStart = e.target.selectionEnd = start + 1;
               }
+        }
+
+        function sleep(delay) {
+            var start = new Date().getTime();
+            while (new Date().getTime() < start + delay);
         }
 
     },

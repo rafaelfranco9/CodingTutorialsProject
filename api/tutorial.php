@@ -118,6 +118,7 @@ function postTutorial(){
 
 			try{
 				mkdir("../usuarios/USER_".$user_id."/tutoriales/tutorial_".$id);
+				echo "se creo la carpeta";
 			}catch(Exception $e){
 				echo 'No se pudo crear el directorio ',$e->getMessage();
 				die;
