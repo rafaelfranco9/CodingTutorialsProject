@@ -22,7 +22,7 @@ if($message == "Aplicacion no instalada"){
     }
         
 }else{
-    echo "<h2>La aplicacion ya fue instalada.</h2><br>En caso de querer reinstalarla modifique el archivo logs/log.txt y escriba 'aplicacion no instalada'";
+    echo "<h2>La aplicacion ya fue instalada.</h2><br>En caso de querer reinstalarla modifique el archivo logs/log.txt y escriba 'Aplicacion no instalada'";
 }
 
 
