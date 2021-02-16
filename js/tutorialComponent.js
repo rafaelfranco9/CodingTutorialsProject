@@ -262,7 +262,7 @@ app.component("tutorial",{
             //Arreglo de todas las imagenes insertadas
             var key = ctrl.imagenActiva.toString();
             ctrl.archivosImagenes[key] = file.files[0];            
-
+            file.value = '';
         }
 
         ctrl.cargarFotoTutorial = function(){

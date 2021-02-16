@@ -48,7 +48,7 @@ function patchTutorial(){
 	$sql = "UPDATE tutorial SET titulo='$titulo',descripcion=$descripcion,imagen=$imagen,categoria=$categoria,etiquetas=$etiquetas,herramientas=$herramientas,estado='$estado' WHERE id=$id";
 	if($result = mysqli_query($db,$sql)){
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."CodingTutorials/usuarios/USER_".$user_id."/tutoriales/tutorial_".$id;
+		$folderPath = $_SERVER['DOCUMENT_ROOT']."/CodingTutorials/usuarios/USER_".$user_id."/tutoriales/tutorial_".$id;
 		borrarImagenesSinUsar($folderPath,$dataTutorial);
 		mysqli_close($db);
 		header(' ', true, 200);
