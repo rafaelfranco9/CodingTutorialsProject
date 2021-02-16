@@ -41,7 +41,7 @@ function deleteLastProfilePic(){
 	$data = json_decode(file_get_contents("php://input"), true);
 	$authHeader = getallheaders();
 	$userdata = validateUser($authHeader);
-	$filePath = $_SERVER['DOCUMENT_ROOT']. "CodingTutorials/".$data['imagen'];
+	$filePath = $_SERVER['DOCUMENT_ROOT']. "/CodingTutorials/".$data['imagen'];
 
 	if(file_exists($filePath)){
 
@@ -113,6 +113,27 @@ function getProfileTutorials(){
 	}
 
 	output($tutoriales);
+}
+
+function deleteEliminarCuenta($id){
+	
+	$authHeader = getallheaders();
+	$data = validateUser($authHeader);
+	$db = databaseConection();
+	
+	
+	$result = mysqli_query($db,"DELETE tutorial FROM tutorial AS t
+							INNER JOIN tutorial_usuario AS tu ON tu.id_tutorial = t.id
+							WHERE tu.id_usuario = $id");
+	
+	$result = mysqli_query($db,"DELETE FROM tutorial_usuario WHERE id_usuario = $id");
+
+	$result = mysqli_query($db,"DELETE FROM usuario WHERE id = $id");
+
+	if($result === false){
+		outputError(401);
+	}
+	
 }
 
 ?>

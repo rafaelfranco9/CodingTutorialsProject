@@ -48,7 +48,7 @@
         <div class="col-md-2"> <!--estaba en 3-->
            <ul class="list-group">
                <li ng-repeat="cat in $ctrl.categorias" class="list-group-item">
-                   <button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat.nombre,btnNoSelected:$ctrl.clicked != cat.nombre}"  ng-click="$ctrl.filtrarPorCategoria(cat.id)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat.nombre}}</button>
+                   <button class="btn" ng-class="{btnSelected: $ctrl.clicked == cat.id,btnNoSelected:$ctrl.clicked != cat.id}"  ng-click="$ctrl.filtrarPorCategoria(cat.id)" style="width: 100%; text-transform: capitalize; font-size: small;">{{cat.nombre}}</button>
                    <!--Administrador-->
                    <a ng-show="$ctrl.admin"  href ng-click="$ctrl.borrarCategoria(cat.id)" style="font-size: 12px; text-decoration: none;" class="m-0 d-flex justify-content-center">eliminar</a> 
                </li>
@@ -143,7 +143,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.actualizarCategoriaTutoriales()">Cambiar imagen</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="$ctrl.actualizarCategoriaTutoriales()">Reemplazar</button>
             </div>
           </div>
         </div>

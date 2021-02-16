@@ -91,20 +91,28 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
-                <form>
-                    <label for="fotoPerfil">Foto de perfil</label>
-                    <input class="form-control" id="imgToLoad" type="file" name="fotoPerfil"  accept="image/*" id="imageFile">
-                    <br>
-                    <label class="form-label" for="Nombre">Nombre</label>
-                    <input type="text" class="form-control"  ng-model="$ctrl.copiaDataUsuario.nombre" style="width:50%"> <!--ver si combiene poner una copia de los datos-->
-                    <br>
-                    <label class="form-label" for="Nombre">Apellido</label>
-                    <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.apellido" style="width:50%">
-                    <br>
-                    <label class="form-label" for="Nombre">Descripcion</label>
-                    <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.descripcion" max="100">
-                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form>
+                            <label for="fotoPerfil">Foto de perfil</label>
+                            <input class="form-control" id="imgToLoad" type="file" name="fotoPerfil"  accept="image/*" id="imageFile">
+                            <br>
+                            <label class="form-label" for="Nombre">Nombre</label>
+                            <input type="text" class="form-control"  ng-model="$ctrl.copiaDataUsuario.nombre" style="width:50%"> <!--ver si combiene poner una copia de los datos-->
+                            <br>
+                            <label class="form-label" for="Nombre">Apellido</label>
+                            <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.apellido" style="width:50%">
+                            <br>
+                            <label class="form-label" for="Nombre">Descripcion</label>
+                            <input type="text" class="form-control" ng-model="$ctrl.copiaDataUsuario.descripcion" max="100">
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <a href="" ng-click="$ctrl.borrarMiCuenta()" class="mt-1 text-decoration-none">Borrar mi cuenta</a>
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer">

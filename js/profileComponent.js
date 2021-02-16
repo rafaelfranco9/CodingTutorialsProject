@@ -131,5 +131,20 @@ angular.module("myApp")
 
         }
 
+        ctrl.borrarMiCuenta = function(){
+            
+           
+            if(confirm('Esta seguro que quiere eliminar su cuenta?')){
+                $http.delete('api/EliminarCuenta/' + ctrl.dataUsuario.id )
+                .then(function(response){
+                    console.log("La cuenta se elimino exitosamente");
+                    ctrl.logout();
+                })
+                .catch(function(response){
+
+                });
+            }
+        }
+
     },
 });
