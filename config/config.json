@@ -1,8 +1,1 @@
-{
-    "appName":"CodingTutorials",
-    "status":"instalada",
-    "hostDB":"localhost",
-    "userDB":"root",
-    "passwordDB":"",
-    "databaseName":"codingtutorials"
-}
+{"appName":"CodingTutorials","status":"instalada","hostDB":"localhost","userDB":"root","passwordDB":"","databaseName":"codingtutorials"}

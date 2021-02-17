@@ -14,7 +14,7 @@
           exit();
         }
      
-        $sqlScript =  file_get_contents("../sql/databaseStructure2.sql");  
+        $sqlScript =  file_get_contents("../sql/databaseStructure.sql");  
 
         if($result = mysqli_multi_query($connection, $sqlScript)){
             echo "<h1>".$config["appName"]."</h1>";
